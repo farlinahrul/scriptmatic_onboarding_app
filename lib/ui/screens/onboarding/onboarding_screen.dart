@@ -1,11 +1,13 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:scriptmatic_onboarding_app/ui/screens/auth/login/login_screen.dart';
 import 'package:scriptmatic_onboarding_app/ui/screens/onboarding/onboarding_bloc.dart';
 import 'package:scriptmatic_onboarding_app/ui/screens/onboarding/onboarding_state.dart';
 import 'package:scriptmatic_onboarding_app/ui/widgets/primary_button.dart';
 import 'package:scriptmatic_onboarding_app/ui/widgets/text/text_inter.dart';
 import 'package:scriptmatic_onboarding_app/utils/constants.dart';
+import 'package:scriptmatic_onboarding_app/utils/extensions.dart';
 import 'package:scriptmatic_onboarding_app/utils/palette_color.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -34,14 +36,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         listeners: [
           BlocListener(
             bloc: _bloc,
-            listener: ((context, state) {
-              if (state is OnBoardingChangeSlide) {
-                print("Change Slide");
-              }
-              if (state is OnBoardingSkipSlide) {
-                print("Skip Slide");
-              }
-            }),
+            listener: ((context, state) {}),
           ),
         ],
         child: Scaffold(
@@ -141,11 +136,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     ),
                     const Expanded(child: SizedBox()),
                     _bloc.isLastIndex()
-                        ? const Padding(
-                            padding: EdgeInsets.symmetric(
+                        ? Padding(
+                            padding: const EdgeInsets.symmetric(
                               horizontal: 16,
                             ),
                             child: PrimaryButton(
+                              onPressed: () {
+                                RouteApp.pushScreen(context, LoginScreen());
+                              },
                               title: "Get Started",
                             ),
                           )

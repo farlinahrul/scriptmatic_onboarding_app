@@ -17,7 +17,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   startTime() async {
     return Timer(const Duration(seconds: 3), () {
-      RouteApp.pushReplacement(context, OnboardingScreen());
+      RouteApp.pushScreen(context, const OnboardingScreen());
     });
   }
 

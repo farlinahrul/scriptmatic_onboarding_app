@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:scriptmatic_onboarding_app/ui/screens/auth/login/login_bloc.dart';
-import 'package:scriptmatic_onboarding_app/ui/screens/auth/login/login_state.dart';
-import 'package:scriptmatic_onboarding_app/ui/screens/auth/register/register_screen.dart';
+import 'package:scriptmatic_onboarding_app/ui/screens/auth/login/login_screen.dart';
+import 'package:scriptmatic_onboarding_app/ui/screens/auth/register/register_bloc.dart';
+import 'package:scriptmatic_onboarding_app/ui/screens/auth/register/register_state.dart';
 import 'package:scriptmatic_onboarding_app/ui/widgets/form_input_field_with_icon.dart';
 import 'package:scriptmatic_onboarding_app/ui/widgets/primary_button.dart';
 import 'package:scriptmatic_onboarding_app/ui/widgets/text/text_inter.dart';
@@ -11,14 +11,14 @@ import 'package:scriptmatic_onboarding_app/utils/extensions.dart';
 import 'package:scriptmatic_onboarding_app/utils/palette_color.dart';
 import 'package:scriptmatic_onboarding_app/utils/validator.dart';
 
-class LoginScreen extends StatelessWidget {
-  LoginScreen({Key? key}) : super(key: key);
+class RegisterScreen extends StatelessWidget {
+  RegisterScreen({Key? key}) : super(key: key);
 
-  final LoginBloc _bloc = LoginBloc()..init();
+  final RegisterBloc _bloc = RegisterBloc()..init();
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<LoginBloc>(
+    return BlocProvider(
       create: (context) => _bloc,
       child: Scaffold(
         body: SafeArea(
@@ -30,12 +30,15 @@ class LoginScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
-                      "assets/images/image_login.png",
+                      "assets/images/image_register.png",
                       width: MediaQuery.of(context).size.width,
                       fit: BoxFit.fitWidth,
                     ),
+                    const SizedBox(
+                      height: 16,
+                    ),
                     const TextInter(
-                      text: "Login Account",
+                      text: "Sign Up",
                       size: 25,
                       fontWeight: Weightenum.bold,
                     ),
@@ -43,15 +46,43 @@ class LoginScreen extends StatelessWidget {
                       height: 6,
                     ),
                     const TextInter(
-                      text: "Selamat datang kembali, di Scriptmatic",
+                      text: "Silahkan memulai dengan membuat akun anda!",
                       size: 14,
                       fontWeight: Weightenum.regular,
                       color: PaletteColor.textGrey,
                     ),
                     const SizedBox(
-                      height: 24,
+                      height: 32,
                     ),
                     FormInputFieldWithIcon(
+                      keyboardType: TextInputType.name,
+                      controller: _bloc.nameController,
+                      enableBorder: false,
+                      iconPrefix: Image.asset("assets/images/icon_user.png"),
+                      labelText: "Nama Lengkap",
+                      validator: Validator().name,
+                      onTap: () {},
+                      onSaved: (value) {},
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    FormInputFieldWithIcon(
+                      keyboardType: TextInputType.number,
+                      controller: _bloc.handPhoneController,
+                      enableBorder: false,
+                      iconPrefix:
+                          Image.asset("assets/images/icon_handphone.png"),
+                      labelText: "No - Telp",
+                      validator: Validator().number,
+                      onTap: () {},
+                      onSaved: (value) {},
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    FormInputFieldWithIcon(
+                      keyboardType: TextInputType.emailAddress,
                       controller: _bloc.emailController,
                       enableBorder: false,
                       iconPrefix: Image.asset("assets/images/icon_email.png"),
@@ -63,9 +94,10 @@ class LoginScreen extends StatelessWidget {
                     const SizedBox(
                       height: 16,
                     ),
-                    BlocBuilder<LoginBloc, LoginState>(
+                    BlocBuilder<RegisterBloc, RegisterState>(
                       builder: (context, state) {
                         return FormInputFieldWithIcon(
+                          keyboardType: TextInputType.visiblePassword,
                           controller: _bloc.passwordController,
                           maxLines: 1,
                           obscureText: _bloc.isHidePassword,
@@ -86,28 +118,11 @@ class LoginScreen extends StatelessWidget {
                       },
                     ),
                     const SizedBox(
-                      height: 12,
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: GestureDetector(
-                        onTap: () {
-                          RouteApp.pushReplacement(context, RegisterScreen());
-                        },
-                        child: const TextInter(
-                          text: "Lupa Password?",
-                          size: 12,
-                          fontWeight: Weightenum.medium,
-                          color: PaletteColor.primary,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
                       height: 40,
                     ),
                     PrimaryButton(
                       onPressed: () {},
-                      title: "Login",
+                      title: "Sign Up",
                       borderRadius: 50,
                     ),
                     const SizedBox(
@@ -144,20 +159,25 @@ class LoginScreen extends StatelessWidget {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        TextInter(
-                          text: "Belum punya akun?",
+                      children: [
+                        const TextInter(
+                          text: "Sudah punya akun?",
                           size: 12,
                           fontWeight: Weightenum.regular,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 18,
                         ),
-                        TextInter(
-                          text: "Sign Up.",
-                          size: 12,
-                          fontWeight: Weightenum.regular,
-                          color: PaletteColor.primary,
+                        GestureDetector(
+                          onTap: () {
+                            RouteApp.pushReplacement(context, LoginScreen());
+                          },
+                          child: const TextInter(
+                            text: "Log In.",
+                            size: 12,
+                            fontWeight: Weightenum.regular,
+                            color: PaletteColor.primary,
+                          ),
                         ),
                       ],
                     ),

@@ -19,10 +19,15 @@ class PaletteColor {
   static const Color textPrimary = Color(0xFF212121);
   static const Color textPrimaryInverted = Color(0xFFFFFFFF);
   static const Color textGrey = Color(0xFFBBBDC7);
+  static const Color textSecondary1 = Color(0xFF6E7692);
+  static const Color textSecondary2 = Color(0xFFB3B7C6);
 
   /* Grey Color */
   static const Color grey = Color(0xFFBBBDC7);
   static const Color grey80 = Color(0xFF5D5D5D);
   static const Color grey60 = Color(0xFFA0A0A0);
   static const Color grey40 = Color(0xFFE4E4E4);
+
+  static const Color borderEmphasis = Color(0xFFCECECE);
+  static const Color bgSecondary = Color(0xFFF6F8FB);
 }

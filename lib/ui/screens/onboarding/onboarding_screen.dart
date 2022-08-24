@@ -10,23 +10,10 @@ import 'package:scriptmatic_onboarding_app/utils/constants.dart';
 import 'package:scriptmatic_onboarding_app/utils/extensions.dart';
 import 'package:scriptmatic_onboarding_app/utils/palette_color.dart';
 
-class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({Key? key}) : super(key: key);
-
-  @override
-  State<OnboardingScreen> createState() => _OnboardingScreenState();
-}
-
-class _OnboardingScreenState extends State<OnboardingScreen> {
+class OnboardingScreen extends StatelessWidget {
   final OnboardingBloc _bloc = OnboardingBloc()..fetchData();
 
-  List<T> map<T>(List list, Function handler) {
-    List<T> result = [];
-    for (var i = 0; i < list.length; i++) {
-      result.add(handler(i, list[i]));
-    }
-    return result;
-  }
+  OnboardingScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +33,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             builder: (context, state) {
               if (state is OnBoardingLoaded) {
                 List<Widget> listWidgetSlider = [];
-                List<Widget> listWidgetIconPagination = [];
+
                 for (int i = 0; i < state.listSliderPath.length; i++) {
                   listWidgetSlider.add(
                     Builder(
@@ -82,32 +69,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       },
                     ),
                   );
-                  listWidgetIconPagination.add(
-                    Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 6),
-                      width: 16.0,
-                      height: 16.0,
-                      decoration: BoxDecoration(
-                        shape: _bloc.currentSlideIndex == i
-                            ? BoxShape.rectangle
-                            : BoxShape.circle,
-                        borderRadius: _bloc.currentSlideIndex == i
-                            ? const BorderRadius.all(
-                                Radius.circular(
-                                  16,
-                                ),
-                              )
-                            : null,
-                        color: _bloc.currentSlideIndex == i
-                            ? PaletteColor.primary
-                            : PaletteColor.primary20,
-                      ),
-                    ),
-                  );
                 }
                 return Column(
                   children: [
-                    _skipButton(),
+                    BlocBuilder<OnboardingBloc, OnboardingState>(
+                      buildWhen: (_, current) =>
+                          current is OnBoardingChangeSlide,
+                      builder: (_, __) {
+                        return _skipButton();
+                      },
+                    ),
                     CarouselSlider(
                       carouselController: _bloc.sliderController,
                       options: CarouselOptions(
@@ -120,41 +91,76 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           autoPlayCurve: Curves.fastOutSlowIn,
                           autoPlayInterval: const Duration(seconds: 2),
                           autoPlayAnimationDuration: const Duration(seconds: 2),
-                          onPageChanged: (index, reason) {
-                            setState(() {
-                              _bloc.currentSlideIndex = index;
-                            });
+                          onPageChanged: (index, _) {
+                            _bloc.changeCurrentIndex(index);
                           }),
                       items: listWidgetSlider,
                     ),
                     const SizedBox(
                       height: 16,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: listWidgetIconPagination,
+                    BlocBuilder<OnboardingBloc, OnboardingState>(
+                      buildWhen: (_, current) =>
+                          current is OnBoardingChangeSlide,
+                      builder: (_, slideState) {
+                        List<Widget> listWidgetIconPagination = [];
+                        for (int i = 0; i < state.listSliderPath.length; i++) {
+                          listWidgetIconPagination.add(
+                            Container(
+                              margin: const EdgeInsets.symmetric(horizontal: 6),
+                              width: 16.0,
+                              height: 16.0,
+                              decoration: BoxDecoration(
+                                shape: _bloc.currentSlideIndex == i
+                                    ? BoxShape.rectangle
+                                    : BoxShape.circle,
+                                borderRadius: _bloc.currentSlideIndex == i
+                                    ? const BorderRadius.all(
+                                        Radius.circular(
+                                          16,
+                                        ),
+                                      )
+                                    : null,
+                                color: _bloc.currentSlideIndex == i
+                                    ? PaletteColor.primary
+                                    : PaletteColor.primary20,
+                              ),
+                            ),
+                          );
+                        }
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: listWidgetIconPagination,
+                        );
+                      },
                     ),
                     const Expanded(child: SizedBox()),
-                    _bloc.isLastIndex()
-                        ? Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                            ),
-                            child: PrimaryButton(
-                              onPressed: () {
-                                RouteApp.pushScreen(context, LoginScreen());
-                              },
-                              title: "Get Started",
-                            ),
-                          )
-                        : const SizedBox(),
+                    BlocBuilder<OnboardingBloc, OnboardingState>(
+                      buildWhen: (_, current) =>
+                          current is OnBoardingChangeSlide,
+                      builder: (context, state) {
+                        return _bloc.isLastIndex()
+                            ? Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                ),
+                                child: PrimaryButton(
+                                  onPressed: () {
+                                    RouteApp.pushScreen(context, LoginScreen());
+                                  },
+                                  title: "Get Started",
+                                ),
+                              )
+                            : const SizedBox();
+                      },
+                    ),
                     const SizedBox(
                       height: 16,
                     ),
                   ],
                 );
               }
-              return Center(child: Text("KOSONG"));
+              return const Center(child: Text("KOSONG"));
             },
           )),
         ),
@@ -172,9 +178,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             const Expanded(child: SizedBox()),
             InkWell(
               onTap: () {
-                setState(() {
-                  _bloc.skipToLastIndex();
-                });
+                _bloc.skipToLastIndex();
               },
               child: Padding(
                 padding: const EdgeInsets.all(8.0),

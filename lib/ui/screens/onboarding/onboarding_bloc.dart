@@ -44,6 +44,11 @@ class OnboardingBloc extends Cubit<OnboardingState> {
     return false;
   }
 
+  void changeCurrentIndex(final int index) {
+    currentSlideIndex = index;
+    emit(OnBoardingChangeSlide());
+  }
+
   void skipToLastIndex() {
     sliderController.animateToPage(_listSliderTitle.length - 1);
   }

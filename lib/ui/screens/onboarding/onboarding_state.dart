@@ -21,3 +21,4 @@ class OnBoardingLoaded extends OnboardingState {
       required this.listSliderTitle,
       required this.listSliderDescription});
 }
+class OnBoardingChangeSlide extends OnboardingState {}

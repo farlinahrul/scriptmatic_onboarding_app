@@ -27,6 +27,7 @@ class OnboardingScreen extends StatelessWidget {
           ),
         ],
         child: Scaffold(
+          resizeToAvoidBottomInset: false,
           body: SafeArea(
               child: BlocBuilder<OnboardingBloc, OnboardingState>(
             buildWhen: (previous, current) => current is OnBoardingLoaded,

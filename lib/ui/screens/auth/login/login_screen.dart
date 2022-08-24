@@ -91,9 +91,7 @@ class LoginScreen extends StatelessWidget {
                     Align(
                       alignment: Alignment.centerRight,
                       child: GestureDetector(
-                        onTap: () {
-                          RouteApp.pushReplacement(context, RegisterScreen());
-                        },
+                        onTap: () {},
                         child: const TextInter(
                           text: "Lupa Password?",
                           size: 12,
@@ -144,20 +142,25 @@ class LoginScreen extends StatelessWidget {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        TextInter(
+                      children: [
+                        const TextInter(
                           text: "Belum punya akun?",
                           size: 12,
                           fontWeight: Weightenum.regular,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 18,
                         ),
-                        TextInter(
-                          text: "Sign Up.",
-                          size: 12,
-                          fontWeight: Weightenum.regular,
-                          color: PaletteColor.primary,
+                        GestureDetector(
+                          onTap: () {
+                            RouteApp.pushReplacement(context, RegisterScreen());
+                          },
+                          child: const TextInter(
+                            text: "Sign Up.",
+                            size: 12,
+                            fontWeight: Weightenum.regular,
+                            color: PaletteColor.primary,
+                          ),
                         ),
                       ],
                     ),

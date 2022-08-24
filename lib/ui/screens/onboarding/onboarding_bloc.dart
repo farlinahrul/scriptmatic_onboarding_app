@@ -27,6 +27,7 @@ class OnboardingBloc extends Cubit<OnboardingState> {
 
   CarouselController sliderController = CarouselController();
 
+  /*  For Backend Component  */
   void fetchData() {
     emit(OnBoardingLoading());
     emit(OnBoardingLoaded(

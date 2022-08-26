@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:scriptmatic_onboarding_app/ui/screens/auth/login/login_bloc.dart';
 import 'package:scriptmatic_onboarding_app/ui/screens/auth/login/login_state.dart';
 import 'package:scriptmatic_onboarding_app/ui/screens/auth/register/register_screen.dart';
@@ -8,6 +9,7 @@ import 'package:scriptmatic_onboarding_app/ui/widgets/primary_button.dart';
 import 'package:scriptmatic_onboarding_app/ui/widgets/text/text_inter.dart';
 import 'package:scriptmatic_onboarding_app/utils/constants.dart';
 import 'package:scriptmatic_onboarding_app/utils/extensions.dart';
+import 'package:scriptmatic_onboarding_app/utils/images.dart';
 import 'package:scriptmatic_onboarding_app/utils/palette_color.dart';
 import 'package:scriptmatic_onboarding_app/utils/validator.dart';
 
@@ -30,7 +32,7 @@ class LoginScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
-                      "assets/images/image_login.png",
+                      AppImagePaths.imgLogin,
                       width: MediaQuery.of(context).size.width,
                       fit: BoxFit.fitWidth,
                     ),
@@ -54,7 +56,15 @@ class LoginScreen extends StatelessWidget {
                     FormInputFieldWithIcon(
                       controller: _bloc.emailController,
                       enableBorder: false,
-                      iconPrefix: Image.asset("assets/images/icon_email.png"),
+                      iconPrefix: IconButton(
+                        icon: SvgPicture.asset(
+                          AppIconsPaths.email,
+                          width: 24,
+                          height: 24,
+                          fit: BoxFit.fitWidth,
+                        ),
+                        onPressed: () {},
+                      ),
                       labelText: "Email ID",
                       validator: Validator().email,
                       onTap: () {},
@@ -70,8 +80,15 @@ class LoginScreen extends StatelessWidget {
                           maxLines: 1,
                           obscureText: _bloc.isHidePassword,
                           enableBorder: false,
-                          iconPrefix:
-                              Image.asset("assets/images/icon_password.png"),
+                          iconPrefix: IconButton(
+                            icon: SvgPicture.asset(
+                              AppIconsPaths.password,
+                              width: 24,
+                              height: 24,
+                              fit: BoxFit.fitWidth,
+                            ),
+                            onPressed: () {},
+                          ),
                           iconSuffix: GestureDetector(
                             onTap: _bloc.toggleHidePassword,
                             child: _bloc.isHidePassword

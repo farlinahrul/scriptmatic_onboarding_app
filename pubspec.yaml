@@ -42,6 +42,7 @@ dependencies:
   flutter_spinkit: ^5.1.0
   # Carousel Image Slider
   carousel_slider: ^4.1.1
+  flutter_svg: 1.0.3
 
 
   # The following adds the Cupertino Icons font to your application.

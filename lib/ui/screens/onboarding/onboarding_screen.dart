@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:scriptmatic_onboarding_app/ui/screens/auth/login/login_screen.dart';
 import 'package:scriptmatic_onboarding_app/ui/screens/onboarding/onboarding_bloc.dart';
 import 'package:scriptmatic_onboarding_app/ui/screens/onboarding/onboarding_state.dart';
@@ -8,6 +9,7 @@ import 'package:scriptmatic_onboarding_app/ui/widgets/primary_button.dart';
 import 'package:scriptmatic_onboarding_app/ui/widgets/text/text_inter.dart';
 import 'package:scriptmatic_onboarding_app/utils/constants.dart';
 import 'package:scriptmatic_onboarding_app/utils/extensions.dart';
+import 'package:scriptmatic_onboarding_app/utils/images.dart';
 import 'package:scriptmatic_onboarding_app/utils/palette_color.dart';
 
 class OnboardingScreen extends StatelessWidget {
@@ -194,10 +196,17 @@ class OnboardingScreen extends StatelessWidget {
                     const SizedBox(
                       width: 4,
                     ),
+                    // !_bloc.isLastIndex()
+                    //     ? Image.asset(
+                    //         'assets/images/arrow_right.png',
+                    //         width: 8,
+                    //         fit: BoxFit.fitWidth,
+                    //       )
+                    //     : const SizedBox()
                     !_bloc.isLastIndex()
-                        ? Image.asset(
-                            'assets/images/arrow_right.png',
-                            width: 8,
+                        ? SvgPicture.asset(
+                            AppIconsPaths.skipNext,
+                            width: 20,
                             fit: BoxFit.fitWidth,
                           )
                         : const SizedBox()

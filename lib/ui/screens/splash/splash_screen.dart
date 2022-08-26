@@ -5,6 +5,7 @@ import 'package:scriptmatic_onboarding_app/ui/screens/onboarding/onboarding_scre
 import 'package:scriptmatic_onboarding_app/ui/widgets/text/text_inter.dart';
 import 'package:scriptmatic_onboarding_app/utils/constants.dart';
 import 'package:scriptmatic_onboarding_app/utils/extensions.dart';
+import 'package:scriptmatic_onboarding_app/utils/images.dart';
 import 'package:scriptmatic_onboarding_app/utils/palette_color.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -48,7 +49,7 @@ class _SplashScreenState extends State<SplashScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Image.asset(
-                  'assets/images/logo/logo_scriptmatic.png',
+                  AppImagePaths.imgLogoScriptmatic,
                   width: MediaQuery.of(context).size.width / 3,
                   fit: BoxFit.fitWidth,
                 ),
@@ -71,7 +72,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 14),
                     child: Image.asset(
-                      'assets/images/splash_screen_image.png',
+                      AppImagePaths.imgSplash,
                       width: MediaQuery.of(context).size.width / 1,
                       fit: BoxFit.fitWidth,
                     ),

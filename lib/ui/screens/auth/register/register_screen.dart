@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:scriptmatic_onboarding_app/ui/screens/auth/login/login_screen.dart';
 import 'package:scriptmatic_onboarding_app/ui/screens/auth/register/register_bloc.dart';
 import 'package:scriptmatic_onboarding_app/ui/screens/auth/register/register_state.dart';
@@ -8,6 +9,7 @@ import 'package:scriptmatic_onboarding_app/ui/widgets/primary_button.dart';
 import 'package:scriptmatic_onboarding_app/ui/widgets/text/text_inter.dart';
 import 'package:scriptmatic_onboarding_app/utils/constants.dart';
 import 'package:scriptmatic_onboarding_app/utils/extensions.dart';
+import 'package:scriptmatic_onboarding_app/utils/images.dart';
 import 'package:scriptmatic_onboarding_app/utils/palette_color.dart';
 import 'package:scriptmatic_onboarding_app/utils/validator.dart';
 
@@ -58,7 +60,15 @@ class RegisterScreen extends StatelessWidget {
                       keyboardType: TextInputType.name,
                       controller: _bloc.nameController,
                       enableBorder: false,
-                      iconPrefix: Image.asset("assets/images/icon_user.png"),
+                      iconPrefix: IconButton(
+                        icon: SvgPicture.asset(
+                          AppIconsPaths.user,
+                          width: 24,
+                          height: 24,
+                          fit: BoxFit.fitWidth,
+                        ),
+                        onPressed: () {},
+                      ),
                       labelText: "Nama Lengkap",
                       validator: Validator().name,
                       onTap: () {},
@@ -71,8 +81,15 @@ class RegisterScreen extends StatelessWidget {
                       keyboardType: TextInputType.number,
                       controller: _bloc.handPhoneController,
                       enableBorder: false,
-                      iconPrefix:
-                          Image.asset("assets/images/icon_handphone.png"),
+                      iconPrefix: IconButton(
+                        icon: SvgPicture.asset(
+                          AppIconsPaths.telephone,
+                          width: 24,
+                          height: 24,
+                          fit: BoxFit.fitWidth,
+                        ),
+                        onPressed: () {},
+                      ),
                       labelText: "No - Telp",
                       validator: Validator().number,
                       onTap: () {},
@@ -85,7 +102,15 @@ class RegisterScreen extends StatelessWidget {
                       keyboardType: TextInputType.emailAddress,
                       controller: _bloc.emailController,
                       enableBorder: false,
-                      iconPrefix: Image.asset("assets/images/icon_email.png"),
+                      iconPrefix: IconButton(
+                        icon: SvgPicture.asset(
+                          AppIconsPaths.email,
+                          width: 24,
+                          height: 24,
+                          fit: BoxFit.fitWidth,
+                        ),
+                        onPressed: () {},
+                      ),
                       labelText: "Email ID",
                       validator: Validator().email,
                       onTap: () {},
@@ -102,8 +127,15 @@ class RegisterScreen extends StatelessWidget {
                           maxLines: 1,
                           obscureText: _bloc.isHidePassword,
                           enableBorder: false,
-                          iconPrefix:
-                              Image.asset("assets/images/icon_password.png"),
+                          iconPrefix: IconButton(
+                            icon: SvgPicture.asset(
+                              AppIconsPaths.password,
+                              width: 24,
+                              height: 24,
+                              fit: BoxFit.fitWidth,
+                            ),
+                            onPressed: () {},
+                          ),
                           iconSuffix: GestureDetector(
                             onTap: _bloc.toggleHidePassword,
                             child: _bloc.isHidePassword

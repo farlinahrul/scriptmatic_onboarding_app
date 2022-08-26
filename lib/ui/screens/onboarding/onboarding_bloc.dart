@@ -1,14 +1,15 @@
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scriptmatic_onboarding_app/ui/screens/onboarding/onboarding_state.dart';
+import 'package:scriptmatic_onboarding_app/utils/images.dart';
 
 class OnboardingBloc extends Cubit<OnboardingState> {
   OnboardingBloc() : super(OnBoardingInitial());
 
   final List<String> _listSliderPath = [
-    "assets/images/slider_1.png",
-    "assets/images/slider_2.png",
-    "assets/images/slider_3.png",
+    AppImagePaths.imgSlider1,
+    AppImagePaths.imgSlider2,
+    AppImagePaths.imgSlider3,
   ];
 
   final List<String> _listSliderTitle = [

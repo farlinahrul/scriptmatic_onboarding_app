@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:scriptmatic_onboarding_app/ui/screens/auth/login/login_bloc.dart';
 import 'package:scriptmatic_onboarding_app/ui/screens/auth/login/login_state.dart';
 import 'package:scriptmatic_onboarding_app/ui/screens/auth/register/register_screen.dart';
+import 'package:scriptmatic_onboarding_app/ui/screens/contact_management/kontak_pelanggan/kontak_pelanggan_screen.dart';
 import 'package:scriptmatic_onboarding_app/ui/widgets/form_input_field_with_icon.dart';
 import 'package:scriptmatic_onboarding_app/ui/widgets/primary_button.dart';
 import 'package:scriptmatic_onboarding_app/ui/widgets/text/text_inter.dart';
@@ -121,7 +122,9 @@ class LoginScreen extends StatelessWidget {
                       height: 40,
                     ),
                     PrimaryButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        RouteApp.pushScreen(context, KontakPelangganScreen());
+                      },
                       title: "Login",
                       borderRadius: 50,
                     ),

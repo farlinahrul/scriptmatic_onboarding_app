@@ -15,9 +15,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Scriptmatic App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
       home: const SplashScreen(),
     );
   }

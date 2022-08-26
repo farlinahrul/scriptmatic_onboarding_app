@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:scriptmatic_onboarding_app/utils/palette_color.dart';
 
-class FormInputFieldWithIcon extends StatelessWidget {
-  const FormInputFieldWithIcon({
+class FormSearch extends StatelessWidget {
+  const FormSearch({
     Key? key,
     this.focusNode,
     this.controller,
@@ -51,8 +51,11 @@ class FormInputFieldWithIcon extends StatelessWidget {
     return TextFormField(
       decoration: InputDecoration(
         border: enableBorder
-            ? const OutlineInputBorder(
-                borderSide: BorderSide(color: PaletteColor.borderEmphasis),
+            ? OutlineInputBorder(
+                borderSide:
+                    const BorderSide(color: PaletteColor.borderEmphasis),
+                borderRadius: BorderRadius.circular(50),
+                gapPadding: 0,
               )
             : null,
         filled: true,
@@ -69,11 +72,12 @@ class FormInputFieldWithIcon extends StatelessWidget {
             ? OutlineInputBorder(
                 borderSide:
                     const BorderSide(color: PaletteColor.primary, width: 1.0),
-                borderRadius: BorderRadius.circular(8.0),
+                borderRadius: BorderRadius.circular(50),
+                gapPadding: 0,
               )
             : null,
+        contentPadding: const EdgeInsets.all(0),
       ),
-      
       onTap: () {
         onTap();
       },

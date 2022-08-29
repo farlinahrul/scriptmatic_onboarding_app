@@ -24,6 +24,7 @@ class FormInputFieldWithIcon extends StatelessWidget {
     this.onEditingComplete,
     this.onFieldSubmitted,
     this.inputAction,
+    this.borderRadius,
   }) : super(key: key);
 
   final TextEditingController? controller;
@@ -36,6 +37,7 @@ class FormInputFieldWithIcon extends StatelessWidget {
   final bool obscureText;
   final bool enabled;
   final bool enableBorder;
+  final double? borderRadius;
   final int minLines;
   final int? maxLines;
   final FocusNode? focusNode;
@@ -51,8 +53,9 @@ class FormInputFieldWithIcon extends StatelessWidget {
     return TextFormField(
       decoration: InputDecoration(
         border: enableBorder
-            ? const OutlineInputBorder(
+            ? OutlineInputBorder(
                 borderSide: BorderSide(color: PaletteColor.borderEmphasis),
+                borderRadius: BorderRadius.circular(borderRadius ?? 8.0),
               )
             : null,
         filled: true,
@@ -69,11 +72,10 @@ class FormInputFieldWithIcon extends StatelessWidget {
             ? OutlineInputBorder(
                 borderSide:
                     const BorderSide(color: PaletteColor.primary, width: 1.0),
-                borderRadius: BorderRadius.circular(8.0),
+                borderRadius: BorderRadius.circular(borderRadius ?? 8.0),
               )
             : null,
       ),
-      
       onTap: () {
         onTap();
       },

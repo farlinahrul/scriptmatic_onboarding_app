@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:scriptmatic_onboarding_app/ui/screens/contact_management/kontak_pelanggan/components/contact_tile.dart';
+import 'package:scriptmatic_onboarding_app/ui/screens/contact_management/kontak_pelanggan/create_kontak_pelanggan/create_kontak_pelanggan_screen.dart';
 import 'package:scriptmatic_onboarding_app/ui/screens/contact_management/kontak_pelanggan/kontak_pelanggan_bloc.dart';
 import 'package:scriptmatic_onboarding_app/ui/screens/contact_management/kontak_pelanggan/kontak_pelanggan_state.dart';
 import 'package:scriptmatic_onboarding_app/ui/widgets/custom_app_bar.dart';
@@ -31,31 +32,6 @@ class KontakPelangganScreen extends StatelessWidget {
         body: NestedScrollView(
           headerSliverBuilder: ((context, innerBoxIsScrolled) {
             return [
-              // SliverAppBar(
-              //   pinned: false,
-              //   title: Text(
-              //     "Kontak Pelanggan",
-              //     style: GoogleFonts.inter(
-              //       color: PaletteColor.textPrimary,
-              //       fontWeight: FontWeight.w600,
-              //       fontSize: 18,
-              //     ),
-              //   ),
-              //   leading: IconButton(
-              //     icon: SvgPicture.asset(
-              //       AppIconsPaths.leftButton,
-              //       width: 22,
-              //       height: 22,
-              //       color: PaletteColor.primary,
-              //     ),
-              //     onPressed: () {
-              //       RouteApp.popScreen(context);
-              //     },
-              //   ),
-              //   elevation: 0,
-              //   centerTitle: true,
-              //   backgroundColor: Colors.white,
-              // ),
               SliverPersistentHeader(
                 pinned: false,
                 delegate: PersistentHeader(
@@ -135,9 +111,15 @@ class KontakPelangganScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const _UserActionTile(
-                            text: "Tambahkan Kontak",
-                            svgPath: AppIconsPaths.addUser,
+                          GestureDetector(
+                            onTap: () {
+                              RouteApp.pushScreen(
+                                  context, CreateKontakPelangganScreen());
+                            },
+                            child: const _UserActionTile(
+                              text: "Tambahkan Kontak",
+                              svgPath: AppIconsPaths.addUser,
+                            ),
                           ),
                           const SizedBox(
                             height: 12,
@@ -242,7 +224,10 @@ class KontakPelangganScreen extends StatelessWidget {
                                 child: Text("Kosong"),
                               );
                             },
-                          )
+                          ),
+                          const SizedBox(
+                            height: 24,
+                          ),
                         ],
                       ),
                     )

@@ -21,3 +21,10 @@ class KontakPelangganLoaded extends KontakPelangganState {
 }
 
 class KontakPelangganChangeState extends KontakPelangganState {}
+
+class KontakPelangganLoadedWithFilterState extends KontakPelangganState {
+  final List<KontakPelanggan> data;
+
+  KontakPelangganLoadedWithFilterState(this.data);
+}
+

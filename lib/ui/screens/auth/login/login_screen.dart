@@ -18,176 +18,194 @@ class LoginScreen extends StatelessWidget {
   LoginScreen({Key? key}) : super(key: key);
 
   final LoginBloc _bloc = LoginBloc()..init();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<LoginBloc>(
       create: (context) => _bloc,
       child: Scaffold(
+        backgroundColor: PaletteColor.white,
         body: SafeArea(
           child: Center(
             child: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 32),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      AppImagePaths.imgLogin,
-                      width: MediaQuery.of(context).size.width,
-                      fit: BoxFit.fitWidth,
-                    ),
-                    const TextInter(
-                      text: "Login Account",
-                      size: 25,
-                      fontWeight: Weightenum.bold,
-                    ),
-                    const SizedBox(
-                      height: 6,
-                    ),
-                    const TextInter(
-                      text: "Selamat datang kembali, di Scriptmatic",
-                      size: 14,
-                      fontWeight: Weightenum.regular,
-                      color: PaletteColor.textGrey,
-                    ),
-                    const SizedBox(
-                      height: 24,
-                    ),
-                    FormInputFieldWithIcon(
-                      controller: _bloc.emailController,
-                      enableBorder: false,
-                      iconPrefix: IconButton(
-                        icon: SvgPicture.asset(
-                          AppIconsPaths.email,
-                          width: 24,
-                          height: 24,
-                          fit: BoxFit.fitWidth,
-                        ),
-                        onPressed: () {},
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        AppImagePaths.imgLogin,
+                        width: MediaQuery.of(context).size.width,
+                        fit: BoxFit.fitWidth,
                       ),
-                      labelText: "Email ID",
-                      validator: Validator().email,
-                      onTap: () {},
-                      onSaved: (value) {},
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    BlocBuilder<LoginBloc, LoginState>(
-                      builder: (context, state) {
-                        return FormInputFieldWithIcon(
-                          controller: _bloc.passwordController,
-                          maxLines: 1,
-                          obscureText: _bloc.isHidePassword,
-                          enableBorder: false,
-                          iconPrefix: IconButton(
-                            icon: SvgPicture.asset(
-                              AppIconsPaths.password,
-                              width: 24,
-                              height: 24,
-                              fit: BoxFit.fitWidth,
-                            ),
-                            onPressed: () {},
+                      const TextInter(
+                        text: "Login Account",
+                        size: 25,
+                        fontWeight: Weightenum.bold,
+                      ),
+                      const SizedBox(
+                        height: 6,
+                      ),
+                      const TextInter(
+                        text: "Selamat datang kembali, di Scriptmatic",
+                        size: 16,
+                        fontWeight: Weightenum.regular,
+                        color: PaletteColor.textGrey,
+                      ),
+                      const SizedBox(
+                        height: 64,
+                      ),
+                      FormInputFieldWithIcon(
+                        contentPadding: EdgeInsets.only(top: 14),
+                        controller: _bloc.emailController,
+                        enableBorder: false,
+                        iconPrefix: IconButton(
+                          icon: SvgPicture.asset(
+                            AppIconsPaths.email,
+                            width: 20,
+                            height: 20,
+                            fit: BoxFit.fitWidth,
                           ),
-                          iconSuffix: GestureDetector(
-                            onTap: _bloc.toggleHidePassword,
-                            child: _bloc.isHidePassword
-                                ? const Icon(Icons.visibility_off)
-                                : const Icon(Icons.visibility),
-                          ),
-                          labelText: "Password",
-                          validator: Validator().password,
-                          onTap: () {},
-                          onSaved: (value) {},
-                        );
-                      },
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: GestureDetector(
+                          onPressed: () {},
+                        ),
+                        labelText: "Email ID",
+                        validator: Validator().email,
                         onTap: () {},
-                        child: const TextInter(
-                          text: "Lupa Password?",
-                          size: 12,
-                          fontWeight: Weightenum.medium,
-                          color: PaletteColor.primary,
-                        ),
+                        onSaved: (value) {},
                       ),
-                    ),
-                    const SizedBox(
-                      height: 40,
-                    ),
-                    PrimaryButton(
-                      onPressed: () {
-                        RouteApp.pushScreen(context, KontakPelangganScreen());
-                      },
-                      title: "Login",
-                      borderRadius: 50,
-                    ),
-                    const SizedBox(
-                      height: 18,
-                    ),
-                    Row(
-                      children: const [
-                        Expanded(
-                          child: Divider(
-                            thickness: 1,
-                            color: PaletteColor.grey,
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 6),
-                          child: TextInter(
-                            text: "OR",
-                            size: 14,
-                            fontWeight: Weightenum.medium,
-                            color: PaletteColor.grey,
-                          ),
-                        ),
-                        Expanded(
-                          child: Divider(
-                            thickness: 1,
-                            color: PaletteColor.grey,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 18,
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const TextInter(
-                          text: "Belum punya akun?",
-                          size: 12,
-                          fontWeight: Weightenum.regular,
-                        ),
-                        const SizedBox(
-                          width: 18,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            RouteApp.pushReplacement(context, RegisterScreen());
-                          },
+                      const SizedBox(
+                        height: 26,
+                      ),
+                      BlocBuilder<LoginBloc, LoginState>(
+                        builder: (context, state) {
+                          return FormInputFieldWithIcon(
+                            contentPadding: EdgeInsets.only(top: 14),
+                            controller: _bloc.passwordController,
+                            maxLines: 1,
+                            obscureText: _bloc.isHidePassword,
+                            enableBorder: false,
+                            iconPrefix: IconButton(
+                              icon: SvgPicture.asset(
+                                AppIconsPaths.password,
+                                width: 20,
+                                height: 20,
+                                fit: BoxFit.fitWidth,
+                              ),
+                              onPressed: () {},
+                            ),
+                            iconSuffix: GestureDetector(
+                              onTap: _bloc.toggleHidePassword,
+                              child: _bloc.isHidePassword
+                                  ? const Icon(
+                                      Icons.visibility_off,
+                                      size: 20,
+                                    )
+                                  : const Icon(
+                                      Icons.visibility,
+                                      size: 20,
+                                    ),
+                            ),
+                            labelText: "Password",
+                            validator: Validator().password,
+                            onTap: () {},
+                            onSaved: (value) {},
+                          );
+                        },
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: GestureDetector(
+                          onTap: () {},
                           child: const TextInter(
-                            text: "Sign Up.",
+                            text: "Lupa Password?",
                             size: 12,
-                            fontWeight: Weightenum.regular,
+                            fontWeight: Weightenum.medium,
                             color: PaletteColor.primary,
                           ),
                         ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 18,
-                    ),
-                  ],
+                      ),
+                      const SizedBox(
+                        height: 64,
+                      ),
+                      PrimaryButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            RouteApp.pushScreen(
+                                context, KontakPelangganScreen());
+                          }
+                        },
+                        title: "Login",
+                        borderRadius: 50,
+                      ),
+                      const SizedBox(
+                        height: 36,
+                      ),
+                      Row(
+                        children: const [
+                          Expanded(
+                            child: Divider(
+                              thickness: 1,
+                              color: PaletteColor.textGrey,
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: TextInter(
+                              text: "OR",
+                              size: 14,
+                              fontWeight: Weightenum.medium,
+                              color: PaletteColor.textGrey,
+                            ),
+                          ),
+                          Expanded(
+                            child: Divider(
+                              thickness: 1,
+                              color: PaletteColor.textGrey,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 18,
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const TextInter(
+                            text: "Belum punya akun?",
+                            size: 12,
+                            fontWeight: Weightenum.regular,
+                            color: PaletteColor.textGrey,
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              RouteApp.pushReplacement(
+                                  context, RegisterScreen());
+                            },
+                            child: const TextInter(
+                              text: "Sign Up.",
+                              size: 12,
+                              fontWeight: Weightenum.medium,
+                              color: PaletteColor.primary,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 18,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

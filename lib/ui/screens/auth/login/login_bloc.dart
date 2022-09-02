@@ -17,6 +17,10 @@ class LoginBloc extends Cubit<LoginState> {
 
   void toggleHidePassword() {
     isHidePassword = !isHidePassword;
-    emit(LoginChangeState());
+    emit(LoginChangeProp());
+  }
+
+  void update() {
+    emit(LoginChangeProp());
   }
 }

@@ -15,4 +15,4 @@ class LoginLoading extends LoginState {}
 
 class LoginLoaded extends LoginState {}
 
-class LoginChangeState extends LoginState {}
+class LoginChangeProp extends LoginState {}

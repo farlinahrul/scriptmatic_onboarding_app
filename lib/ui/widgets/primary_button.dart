@@ -45,7 +45,7 @@ class PrimaryButton extends StatelessWidget {
               stops: const [0.0, 1.0],
               colors: enabled
                   ? <Color>[PaletteColor.primary, PaletteColor.primary]
-                  : <Color>[PaletteColor.grey, PaletteColor.grey],
+                  : <Color>[Colors.transparent, Colors.transparent],
             ),
         boxShadow: [
           enabled && shadowed
@@ -57,6 +57,12 @@ class PrimaryButton extends StatelessWidget {
               : const BoxShadow(color: Colors.transparent),
         ],
         borderRadius: BorderRadius.circular(borderRadius ?? 12),
+        border: !enabled
+            ? Border.all(
+                color: PaletteColor.borderEmphasis,
+                width: 2,
+              )
+            : null,
       ),
       child: Material(
         color: Colors.transparent,
@@ -67,7 +73,9 @@ class PrimaryButton extends StatelessWidget {
             child: child ??
                 TextInter(
                   size: 16,
-                  color: PaletteColor.textPrimaryInverted,
+                  color: enabled
+                      ? PaletteColor.textPrimaryInverted
+                      : PaletteColor.textGrey,
                   fontWeight: Weightenum.semiBold,
                   text: title.toString(),
                 ),

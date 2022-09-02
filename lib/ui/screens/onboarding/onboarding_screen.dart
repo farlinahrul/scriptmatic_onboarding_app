@@ -29,6 +29,7 @@ class OnboardingScreen extends StatelessWidget {
           ),
         ],
         child: Scaffold(
+          backgroundColor: PaletteColor.white,
           resizeToAvoidBottomInset: false,
           body: SafeArea(
               child: BlocBuilder<OnboardingBloc, OnboardingState>(
@@ -59,13 +60,19 @@ class OnboardingScreen extends StatelessWidget {
                             const SizedBox(
                               height: 12,
                             ),
-                            TextInter(
-                              align: TextAlign.center,
-                              maxLines: 2,
-                              text: state.listSliderDescription[i],
-                              size: 14,
-                              fontWeight: Weightenum.regular,
-                              color: PaletteColor.textGrey,
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 42,
+                              ),
+                              child: TextInter(
+                                align: TextAlign.center,
+                                maxLines: 3,
+                                text: state.listSliderDescription[i],
+                                size: 16,
+                                fontWeight: Weightenum.regular,
+                                color: PaletteColor.textGrey,
+                              ),
                             ),
                           ],
                         );
@@ -73,93 +80,108 @@ class OnboardingScreen extends StatelessWidget {
                     ),
                   );
                 }
-                return Column(
+                return Stack(
                   children: [
-                    BlocBuilder<OnboardingBloc, OnboardingState>(
-                      buildWhen: (_, current) =>
-                          current is OnBoardingChangeSlide,
-                      builder: (_, __) {
-                        return _skipButton();
-                      },
+                    // header
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: BlocBuilder<OnboardingBloc, OnboardingState>(
+                        builder: (_, __) {
+                          return _skipButton();
+                        },
+                      ),
                     ),
-                    CarouselSlider(
-                      carouselController: _bloc.sliderController,
-                      options: CarouselOptions(
-                          enableInfiniteScroll: false,
-                          autoPlay: false,
-                          enlargeCenterPage: false,
-                          height: MediaQuery.of(context).size.height / 1.5,
-                          viewportFraction: 1.0,
-                          aspectRatio: 2.0,
-                          autoPlayCurve: Curves.fastOutSlowIn,
-                          autoPlayInterval: const Duration(seconds: 2),
-                          autoPlayAnimationDuration: const Duration(seconds: 2),
-                          onPageChanged: (index, _) {
-                            _bloc.changeCurrentIndex(index);
-                          }),
-                      items: listWidgetSlider,
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    BlocBuilder<OnboardingBloc, OnboardingState>(
-                      buildWhen: (_, current) =>
-                          current is OnBoardingChangeSlide,
-                      builder: (_, slideState) {
-                        List<Widget> listWidgetIconPagination = [];
-                        for (int i = 0; i < state.listSliderPath.length; i++) {
-                          listWidgetIconPagination.add(
-                            Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 6),
-                              width: 16.0,
-                              height: 16.0,
-                              decoration: BoxDecoration(
-                                shape: _bloc.currentSlideIndex == i
-                                    ? BoxShape.rectangle
-                                    : BoxShape.circle,
-                                borderRadius: _bloc.currentSlideIndex == i
-                                    ? const BorderRadius.all(
-                                        Radius.circular(
-                                          16,
-                                        ),
-                                      )
-                                    : null,
-                                color: _bloc.currentSlideIndex == i
-                                    ? PaletteColor.primary
-                                    : PaletteColor.primary20,
-                              ),
-                            ),
-                          );
-                        }
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: listWidgetIconPagination,
-                        );
-                      },
-                    ),
-                    const Expanded(child: SizedBox()),
-                    BlocBuilder<OnboardingBloc, OnboardingState>(
-                      buildWhen: (_, current) =>
-                          current is OnBoardingChangeSlide,
-                      builder: (context, state) {
-                        return _bloc.isLastIndex()
-                            ? Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 16,
+                    // body
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CarouselSlider(
+                          carouselController: _bloc.sliderController,
+                          options: CarouselOptions(
+                              enableInfiniteScroll: false,
+                              autoPlay: false,
+                              enlargeCenterPage: false,
+                              height: MediaQuery.of(context).size.height / 1.5,
+                              viewportFraction: 1.0,
+                              aspectRatio: 2.0,
+                              autoPlayCurve: Curves.fastOutSlowIn,
+                              autoPlayInterval: const Duration(seconds: 2),
+                              autoPlayAnimationDuration:
+                                  const Duration(seconds: 2),
+                              onPageChanged: (index, _) {
+                                _bloc.changeCurrentIndex(index);
+                              }),
+                          items: listWidgetSlider,
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        BlocBuilder<OnboardingBloc, OnboardingState>(
+                          buildWhen: (_, current) =>
+                              current is OnBoardingChangeSlide,
+                          builder: (_, slideState) {
+                            List<Widget> listWidgetIconPagination = [];
+                            for (int i = 0;
+                                i < state.listSliderPath.length;
+                                i++) {
+                              listWidgetIconPagination.add(
+                                Container(
+                                  margin:
+                                      const EdgeInsets.symmetric(horizontal: 6),
+                                  width: 16.0,
+                                  height: 16.0,
+                                  decoration: BoxDecoration(
+                                    shape: _bloc.currentSlideIndex == i
+                                        ? BoxShape.rectangle
+                                        : BoxShape.circle,
+                                    borderRadius: _bloc.currentSlideIndex == i
+                                        ? const BorderRadius.all(
+                                            Radius.circular(
+                                              16,
+                                            ),
+                                          )
+                                        : null,
+                                    color: _bloc.currentSlideIndex == i
+                                        ? PaletteColor.primary
+                                        : PaletteColor.primary20,
+                                  ),
                                 ),
-                                child: PrimaryButton(
-                                  onPressed: () {
-                                    RouteApp.pushScreen(context, LoginScreen());
-                                  },
-                                  title: "Get Started",
-                                ),
-                              )
-                            : const SizedBox();
-                      },
+                              );
+                            }
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: listWidgetIconPagination,
+                            );
+                          },
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                      ],
                     ),
-                    const SizedBox(
-                      height: 16,
-                    ),
+                    // bottom
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: BlocBuilder<OnboardingBloc, OnboardingState>(
+                        buildWhen: (_, current) =>
+                            current is OnBoardingChangeSlide,
+                        builder: (context, state) {
+                          return _bloc.isLastIndex()
+                              ? Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 16, right: 16, bottom: 24),
+                                  child: PrimaryButton(
+                                    onPressed: () {
+                                      RouteApp.pushScreen(
+                                          context, LoginScreen());
+                                    },
+                                    title: "Get Started",
+                                  ),
+                                )
+                              : const SizedBox();
+                        },
+                      ),
+                    )
                   ],
                 );
               }
@@ -172,50 +194,47 @@ class OnboardingScreen extends StatelessWidget {
   }
 
   Widget _skipButton() {
-    return Align(
-      alignment: Alignment.centerRight,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          children: [
-            const Expanded(child: SizedBox()),
-            InkWell(
-              onTap: () {
-                _bloc.skipToLastIndex();
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    TextInter(
-                      text: !_bloc.isLastIndex() ? "Skip" : "",
-                      size: 12,
-                      fontWeight: Weightenum.semiBold,
-                      color: PaletteColor.primary,
-                    ),
-                    const SizedBox(
-                      width: 4,
-                    ),
-                    // !_bloc.isLastIndex()
-                    //     ? Image.asset(
-                    //         'assets/images/arrow_right.png',
-                    //         width: 8,
-                    //         fit: BoxFit.fitWidth,
-                    //       )
-                    //     : const SizedBox()
-                    !_bloc.isLastIndex()
-                        ? SvgPicture.asset(
-                            AppIconsPaths.skipNext,
-                            width: 20,
-                            fit: BoxFit.fitWidth,
-                          )
-                        : const SizedBox()
-                  ],
-                ),
+    return Padding(
+      padding: const EdgeInsets.only(top: 24, right: 10),
+      child: Row(
+        children: [
+          const Expanded(child: SizedBox()),
+          InkWell(
+            onTap: () {
+              _bloc.skipToLastIndex();
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  TextInter(
+                    text: !_bloc.isLastIndex() ? "Skip" : "",
+                    size: 14,
+                    fontWeight: Weightenum.semiBold,
+                    color: PaletteColor.primary,
+                  ),
+                  const SizedBox(
+                    width: 4,
+                  ),
+                  // !_bloc.isLastIndex()
+                  //     ? Image.asset(
+                  //         'assets/images/arrow_right.png',
+                  //         width: 8,
+                  //         fit: BoxFit.fitWidth,
+                  //       )
+                  //     : const SizedBox()
+                  !_bloc.isLastIndex()
+                      ? SvgPicture.asset(
+                          AppIconsPaths.skipNext,
+                          width: 20,
+                          fit: BoxFit.fitWidth,
+                        )
+                      : const SizedBox()
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

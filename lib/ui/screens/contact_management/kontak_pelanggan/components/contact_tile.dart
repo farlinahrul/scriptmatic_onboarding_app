@@ -20,50 +20,53 @@ class ContactTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children:  [
-            TextInter(
-              text: name,
-              size: 14,
-              fontWeight: Weightenum.bold,
-            ),
-            const SizedBox(
-              height: 2,
-            ),
-            TextInter(
-              text: number,
-              size: 12,
-              fontWeight: Weightenum.medium,
-              color: PaletteColor.textSecondary2,
-            ),
-            const SizedBox(
-              height: 2,
-            ),
-            TextInter(
-              text: type,
-              size: 12,
-              fontWeight: Weightenum.bold,
-              color: color,
-            )
-          ],
-        ),
-        Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(4),
-            color: PaletteColor.grey20,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextInter(
+                text: name,
+                size: 16,
+                fontWeight: Weightenum.bold,
+              ),
+              const SizedBox(
+                height: 3,
+              ),
+              TextInter(
+                text: number,
+                size: 13,
+                fontWeight: Weightenum.medium,
+                color: PaletteColor.textSecondary2,
+              ),
+              const SizedBox(
+                height: 3,
+              ),
+              TextInter(
+                text: type,
+                size: 13,
+                fontWeight: Weightenum.bold,
+                color: color,
+              )
+            ],
           ),
-          child: Image.asset(
-            AppImagePaths.editUser,
-            width: 16,
-            fit: BoxFit.fitWidth,
-          ),
-        )
-      ],
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(4),
+              color: PaletteColor.grey20,
+            ),
+            child: Image.asset(
+              AppImagePaths.editUser,
+              width: 16,
+              fit: BoxFit.fitWidth,
+            ),
+          )
+        ],
+      ),
     );
   }
 }

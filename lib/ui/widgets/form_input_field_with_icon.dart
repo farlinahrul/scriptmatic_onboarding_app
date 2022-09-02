@@ -25,6 +25,8 @@ class FormInputFieldWithIcon extends StatelessWidget {
     this.onFieldSubmitted,
     this.inputAction,
     this.borderRadius,
+    this.contentPadding,
+    this.fontSize,
   }) : super(key: key);
 
   final TextEditingController? controller;
@@ -47,6 +49,8 @@ class FormInputFieldWithIcon extends StatelessWidget {
   final void Function(String?)? onSaved;
   final void Function()? onEditingComplete;
   final void Function(String)? onFieldSubmitted;
+  final EdgeInsets? contentPadding;
+  final double? fontSize;
 
   @override
   Widget build(BuildContext context) {
@@ -59,12 +63,12 @@ class FormInputFieldWithIcon extends StatelessWidget {
               )
             : null,
         filled: true,
-        fillColor: backgroundColor ?? PaletteColor.bgSecondary,
+        fillColor: backgroundColor ?? PaletteColor.white,
         prefixIcon: iconPrefix,
         suffixIcon: iconSuffix,
         hintText: labelText,
         hintStyle: GoogleFonts.inter(
-          fontSize: 14,
+          fontSize: fontSize ?? 18,
           fontWeight: FontWeight.w400,
           color: PaletteColor.textSecondary2,
         ),
@@ -75,12 +79,13 @@ class FormInputFieldWithIcon extends StatelessWidget {
                 borderRadius: BorderRadius.circular(borderRadius ?? 8.0),
               )
             : null,
+        contentPadding: contentPadding,
       ),
       onTap: () {
         onTap();
       },
       style: GoogleFonts.inter(
-        fontSize: 14,
+        fontSize: fontSize ?? 18,
         fontWeight: FontWeight.w400,
         color: PaletteColor.textPrimary,
       ),

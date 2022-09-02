@@ -17,206 +17,208 @@ class RegisterScreen extends StatelessWidget {
   RegisterScreen({Key? key}) : super(key: key);
 
   final RegisterBloc _bloc = RegisterBloc()..init();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => _bloc,
       child: Scaffold(
+        backgroundColor: PaletteColor.white,
         body: SafeArea(
           child: Center(
             child: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 32),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      "assets/images/image_register.png",
-                      width: MediaQuery.of(context).size.width,
-                      fit: BoxFit.fitWidth,
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    const TextInter(
-                      text: "Sign Up",
-                      size: 25,
-                      fontWeight: Weightenum.bold,
-                    ),
-                    const SizedBox(
-                      height: 6,
-                    ),
-                    const TextInter(
-                      text: "Silahkan memulai dengan membuat akun anda!",
-                      size: 14,
-                      fontWeight: Weightenum.regular,
-                      color: PaletteColor.textGrey,
-                    ),
-                    const SizedBox(
-                      height: 32,
-                    ),
-                    FormInputFieldWithIcon(
-                      keyboardType: TextInputType.name,
-                      controller: _bloc.nameController,
-                      enableBorder: false,
-                      iconPrefix: IconButton(
-                        icon: SvgPicture.asset(
-                          AppIconsPaths.user,
-                          width: 24,
-                          height: 24,
-                          fit: BoxFit.fitWidth,
-                        ),
-                        onPressed: () {},
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        AppImagePaths.imgRegister,
+                        width: MediaQuery.of(context).size.width,
+                        fit: BoxFit.fitWidth,
                       ),
-                      labelText: "Nama Lengkap",
-                      validator: Validator().name,
-                      onTap: () {},
-                      onSaved: (value) {},
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    FormInputFieldWithIcon(
-                      keyboardType: TextInputType.number,
-                      controller: _bloc.handPhoneController,
-                      enableBorder: false,
-                      iconPrefix: IconButton(
-                        icon: SvgPicture.asset(
-                          AppIconsPaths.telephone,
-                          width: 24,
-                          height: 24,
-                          fit: BoxFit.fitWidth,
-                        ),
-                        onPressed: () {},
+                      const SizedBox(
+                        height: 16,
                       ),
-                      labelText: "No - Telp",
-                      validator: Validator().number,
-                      onTap: () {},
-                      onSaved: (value) {},
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    FormInputFieldWithIcon(
-                      keyboardType: TextInputType.emailAddress,
-                      controller: _bloc.emailController,
-                      enableBorder: false,
-                      iconPrefix: IconButton(
-                        icon: SvgPicture.asset(
-                          AppIconsPaths.email,
-                          width: 24,
-                          height: 24,
-                          fit: BoxFit.fitWidth,
-                        ),
-                        onPressed: () {},
+                      const TextInter(
+                        text: "Sign Up",
+                        size: 25,
+                        fontWeight: Weightenum.bold,
                       ),
-                      labelText: "Email ID",
-                      validator: Validator().email,
-                      onTap: () {},
-                      onSaved: (value) {},
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    BlocBuilder<RegisterBloc, RegisterState>(
-                      builder: (context, state) {
-                        return FormInputFieldWithIcon(
-                          keyboardType: TextInputType.visiblePassword,
-                          controller: _bloc.passwordController,
-                          maxLines: 1,
-                          obscureText: _bloc.isHidePassword,
-                          enableBorder: false,
-                          iconPrefix: IconButton(
-                            icon: SvgPicture.asset(
-                              AppIconsPaths.password,
-                              width: 24,
-                              height: 24,
-                              fit: BoxFit.fitWidth,
+                      const SizedBox(
+                        height: 6,
+                      ),
+                      const TextInter(
+                        text: "Silahkan memulai dengan membuat akun anda!",
+                        size: 16,
+                        fontWeight: Weightenum.regular,
+                        color: PaletteColor.textGrey,
+                      ),
+                      const SizedBox(
+                        height: 48,
+                      ),
+                      FormInputFieldWithIcon(
+                        contentPadding: const EdgeInsets.only(top: 14),
+                        keyboardType: TextInputType.name,
+                        controller: _bloc.nameController,
+                        enableBorder: false,
+                        iconPrefix: Padding(
+                          padding: const EdgeInsets.all(14),
+                          child: SvgPicture.asset(
+                            AppIconsPaths.user,
+                          ),
+                        ),
+                        labelText: "Nama Lengkap",
+                        validator: Validator().name,
+                        onTap: () {},
+                        onSaved: (value) {},
+                      ),
+                      const SizedBox(
+                        height: 14,
+                      ),
+                      FormInputFieldWithIcon(
+                        contentPadding: const EdgeInsets.only(top: 14),
+                        keyboardType: TextInputType.number,
+                        controller: _bloc.handPhoneController,
+                        enableBorder: false,
+                        iconPrefix: Padding(
+                          padding: const EdgeInsets.all(14),
+                          child: SvgPicture.asset(
+                            AppIconsPaths.telephone,
+                          ),
+                        ),
+                        labelText: "No - Telp",
+                        validator: Validator().phone,
+                        onTap: () {},
+                        onSaved: (value) {},
+                      ),
+                      const SizedBox(
+                        height: 14,
+                      ),
+                      FormInputFieldWithIcon(
+                        contentPadding: const EdgeInsets.only(top: 14),
+                        keyboardType: TextInputType.emailAddress,
+                        controller: _bloc.emailController,
+                        enableBorder: false,
+                        iconPrefix: Padding(
+                          padding: const EdgeInsets.all(14),
+                          child: SvgPicture.asset(
+                            AppIconsPaths.email,
+                          ),
+                        ),
+                        labelText: "Email ID",
+                        validator: Validator().email,
+                        onTap: () {},
+                        onSaved: (value) {},
+                      ),
+                      const SizedBox(
+                        height: 14,
+                      ),
+                      BlocBuilder<RegisterBloc, RegisterState>(
+                        builder: (context, state) {
+                          return FormInputFieldWithIcon(
+                            contentPadding: const EdgeInsets.only(top: 14),
+                            keyboardType: TextInputType.visiblePassword,
+                            controller: _bloc.passwordController,
+                            maxLines: 1,
+                            obscureText: _bloc.isHidePassword,
+                            enableBorder: false,
+                            iconPrefix: Padding(
+                              padding: const EdgeInsets.all(14),
+                              child: SvgPicture.asset(
+                                AppIconsPaths.password,
+                              ),
                             ),
-                            onPressed: () {},
+                            iconSuffix: GestureDetector(
+                              onTap: _bloc.toggleHidePassword,
+                              child: _bloc.isHidePassword
+                                  ? const Icon(Icons.visibility_off)
+                                  : const Icon(Icons.visibility),
+                            ),
+                            labelText: "Password",
+                            validator: Validator().password,
+                            onTap: () {},
+                            onSaved: (value) {},
+                          );
+                        },
+                      ),
+                      const SizedBox(
+                        height: 48,
+                      ),
+                      PrimaryButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            //TODO: action sign up
+                          }
+                        },
+                        title: "Sign Up",
+                        borderRadius: 50,
+                      ),
+                      const SizedBox(
+                        height: 32,
+                      ),
+                      Row(
+                        children: const [
+                          Expanded(
+                            child: Divider(
+                              thickness: 1,
+                              color: PaletteColor.textGrey,
+                            ),
                           ),
-                          iconSuffix: GestureDetector(
-                            onTap: _bloc.toggleHidePassword,
-                            child: _bloc.isHidePassword
-                                ? const Icon(Icons.visibility_off)
-                                : const Icon(Icons.visibility),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 6),
+                            child: TextInter(
+                              text: "OR",
+                              size: 14,
+                              fontWeight: Weightenum.medium,
+                              color: PaletteColor.textGrey,
+                            ),
                           ),
-                          labelText: "Password",
-                          validator: Validator().password,
-                          onTap: () {},
-                          onSaved: (value) {},
-                        );
-                      },
-                    ),
-                    const SizedBox(
-                      height: 40,
-                    ),
-                    PrimaryButton(
-                      onPressed: () {},
-                      title: "Sign Up",
-                      borderRadius: 50,
-                    ),
-                    const SizedBox(
-                      height: 18,
-                    ),
-                    Row(
-                      children: const [
-                        Expanded(
-                          child: Divider(
-                            thickness: 1,
-                            color: PaletteColor.grey,
+                          Expanded(
+                            child: Divider(
+                              thickness: 1,
+                              color: PaletteColor.textGrey,
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 6),
-                          child: TextInter(
-                            text: "OR",
-                            size: 14,
-                            fontWeight: Weightenum.medium,
-                            color: PaletteColor.grey,
-                          ),
-                        ),
-                        Expanded(
-                          child: Divider(
-                            thickness: 1,
-                            color: PaletteColor.grey,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 18,
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const TextInter(
-                          text: "Sudah punya akun?",
-                          size: 12,
-                          fontWeight: Weightenum.regular,
-                        ),
-                        const SizedBox(
-                          width: 18,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            RouteApp.pushReplacement(context, LoginScreen());
-                          },
-                          child: const TextInter(
-                            text: "Log In.",
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 18,
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const TextInter(
+                            text: "Sudah punya akun?",
                             size: 12,
                             fontWeight: Weightenum.regular,
-                            color: PaletteColor.primary,
+                            color: PaletteColor.textGrey,
                           ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 18,
-                    ),
-                  ],
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              RouteApp.pushReplacement(context, LoginScreen());
+                            },
+                            child: const TextInter(
+                              text: "Log In.",
+                              size: 12,
+                              fontWeight: Weightenum.regular,
+                              color: PaletteColor.primary,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 18,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

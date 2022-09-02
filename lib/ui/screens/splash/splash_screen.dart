@@ -17,7 +17,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   startTime() async {
-    return Timer(const Duration(seconds: 3), () {
+    return Timer(const Duration(seconds: 1), () {
       RouteApp.pushScreen(context, OnboardingScreen());
     });
   }
@@ -41,7 +41,7 @@ class _SplashScreenState extends State<SplashScreen> {
       ),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
         body: SafeArea(
           child: Center(
             child: Column(

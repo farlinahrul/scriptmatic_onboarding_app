@@ -14,6 +14,7 @@ class FormSearch extends StatelessWidget {
     this.obscureText = false,
     this.enabled = true,
     this.enableBorder = true,
+    this.autofocus = false,
     this.minLines = 1,
     this.maxLines,
     required this.onTap,
@@ -31,11 +32,12 @@ class FormSearch extends StatelessWidget {
   final Widget? iconSuffix;
   final String labelText;
   final String? Function(String?)? validator;
-  final TextInputType keyboardType;
+  final TextInputType? keyboardType;
   final TextInputAction? inputAction;
   final bool obscureText;
   final bool enabled;
   final bool enableBorder;
+  final bool autofocus;
   final int minLines;
   final int? maxLines;
   final FocusNode? focusNode;
@@ -49,6 +51,7 @@ class FormSearch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      autofocus: autofocus,
       decoration: InputDecoration(
         border: enableBorder
             ? OutlineInputBorder(
@@ -64,7 +67,7 @@ class FormSearch extends StatelessWidget {
         suffixIcon: iconSuffix,
         hintText: labelText,
         hintStyle: GoogleFonts.inter(
-          fontSize: 14,
+          fontSize: 16,
           fontWeight: FontWeight.w400,
           color: PaletteColor.textSecondary2,
         ),
@@ -82,7 +85,7 @@ class FormSearch extends StatelessWidget {
         onTap();
       },
       style: GoogleFonts.inter(
-        fontSize: 14,
+        fontSize: 16,
         fontWeight: FontWeight.w400,
         color: PaletteColor.textPrimary,
       ),

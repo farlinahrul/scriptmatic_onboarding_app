@@ -24,4 +24,5 @@ class AppIconsPaths {
   static const String filter = 'assets/images/ic_filter.svg';
   static const String addUser = 'assets/images/ic_add_user.svg';
   static const String syncUser = 'assets/images/ic_sync_user.svg';
+  static const String exit = 'assets/images/ic_exit.svg';
 }

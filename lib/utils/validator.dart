@@ -26,7 +26,7 @@ class Validator {
     String pattern = r'^.{6,}$';
     RegExp regex = RegExp(pattern);
     if (!regex.hasMatch(value!)) {
-      return "Password tidak valid";
+      return "Password tidak valid. Minimal 6 karakter";
     } else {
       return null;
     }

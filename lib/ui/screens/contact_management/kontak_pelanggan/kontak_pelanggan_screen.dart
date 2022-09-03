@@ -367,8 +367,8 @@ class KontakPelangganScreen extends StatelessWidget {
                               initQuery: _bloc.searchController.text,
                             ),
                           );
-                          if (query != "null") {
-                            _bloc.searchController.text = query!;
+                          if (query != null) {
+                            _bloc.searchController.text = query;
                             _bloc.sortFilterAndSearch();
                           }
                         },

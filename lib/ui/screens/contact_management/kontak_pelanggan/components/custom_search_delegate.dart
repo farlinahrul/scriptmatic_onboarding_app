@@ -117,7 +117,7 @@ class CustomSearchDelegate extends custom.SearchDelegate<String> {
                       query = suggestionsTemp[index];
                     },
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

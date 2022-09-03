@@ -275,7 +275,7 @@ class _SearchPageState<T> extends State<_SearchPage<T>> {
       case _SearchBody.suggestions:
         body = KeyedSubtree(
           key: const ValueKey<_SearchBody>(_SearchBody.suggestions),
-          child: Expanded(child: widget.delegate.buildSuggestions(context)),
+          child: widget.delegate.buildSuggestions(context),
         );
         break;
       case _SearchBody.results:
@@ -315,7 +315,7 @@ class _SearchPageState<T> extends State<_SearchPage<T>> {
             backgroundColor: Colors.transparent,
             leadingWidth: 0,
             titleSpacing: 0,
-            //leading: widget.delegate.buildLeading(context),
+            leading: widget.delegate.buildLeading(context),
             title: Padding(
               padding: const EdgeInsets.only(
                 left: 24,

@@ -62,14 +62,11 @@ class LoginScreen extends StatelessWidget {
                         contentPadding: EdgeInsets.only(top: 14),
                         controller: _bloc.emailController,
                         enableBorder: false,
-                        iconPrefix: IconButton(
-                          icon: SvgPicture.asset(
+                        iconPrefix: Padding(
+                          padding: const EdgeInsets.all(14),
+                          child: SvgPicture.asset(
                             AppIconsPaths.email,
-                            width: 20,
-                            height: 20,
-                            fit: BoxFit.fitWidth,
                           ),
-                          onPressed: () {},
                         ),
                         labelText: "Email ID",
                         validator: Validator().email,
@@ -82,19 +79,16 @@ class LoginScreen extends StatelessWidget {
                       BlocBuilder<LoginBloc, LoginState>(
                         builder: (context, state) {
                           return FormInputFieldWithIcon(
-                            contentPadding: EdgeInsets.only(top: 14),
+                            contentPadding: const EdgeInsets.only(top: 14),
                             controller: _bloc.passwordController,
                             maxLines: 1,
                             obscureText: _bloc.isHidePassword,
                             enableBorder: false,
-                            iconPrefix: IconButton(
-                              icon: SvgPicture.asset(
+                            iconPrefix: Padding(
+                              padding: const EdgeInsets.all(14),
+                              child: SvgPicture.asset(
                                 AppIconsPaths.password,
-                                width: 20,
-                                height: 20,
-                                fit: BoxFit.fitWidth,
                               ),
-                              onPressed: () {},
                             ),
                             iconSuffix: GestureDetector(
                               onTap: _bloc.toggleHidePassword,

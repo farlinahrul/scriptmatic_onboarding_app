@@ -16,31 +16,34 @@ class KontakPelangganActionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: PaletteColor.primary,
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(8),
-            child: SvgPicture.asset(
-              svgPath,
-              width: 22,
-              height: 22,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      child: Row(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: PaletteColor.primary,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: SvgPicture.asset(
+                svgPath,
+                width: 24,
+                height: 24,
+              ),
             ),
           ),
-        ),
-        const SizedBox(
-          width: 20,
-        ),
-        TextInter(
-          text: text,
-          size: 16,
-          fontWeight: Weightenum.regular,
-        )
-      ],
+          const SizedBox(
+            width: 20,
+          ),
+          TextInter(
+            text: text,
+            size: 16,
+            fontWeight: Weightenum.regular,
+          )
+        ],
+      ),
     );
   }
 }

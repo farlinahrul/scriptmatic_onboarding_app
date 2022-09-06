@@ -107,7 +107,7 @@ class KontakPelangganScreen extends StatelessWidget {
               );
             } else {
               return Padding(
-                padding: EdgeInsets.symmetric(horizontal: 24),
+                padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -132,23 +132,36 @@ class KontakPelangganScreen extends StatelessWidget {
   List<Widget> constantBodyWidgets(BuildContext context) {
     return [
       const SizedBox(
-        height: 20,
+        height: 8,
       ),
-      GestureDetector(
+      InkWell(
         onTap: () {
           RouteApp.pushScreen(context, CreateKontakPelangganScreen());
         },
-        child: const KontakPelangganActionTile(
-          text: "Tambahkan Kontak",
-          svgPath: AppIconsPaths.addUser,
+        child: Ink(
+          child: const KontakPelangganActionTile(
+            text: "Tambahkan Kontak",
+            svgPath: AppIconsPaths.addUser,
+          ),
         ),
       ),
-      separatorWidget(),
-      const KontakPelangganActionTile(
-        text: "Sinkronisasikan Kontak",
-        svgPath: AppIconsPaths.syncUser,
+      const Divider(
+        thickness: 1,
       ),
-      separatorWidget(),
+      InkWell(
+        child: Ink(
+          child: const KontakPelangganActionTile(
+            text: "Sinkronisasikan Kontak",
+            svgPath: AppIconsPaths.syncUser,
+          ),
+        ),
+      ),
+      const Divider(
+        thickness: 1,
+      ),
+      const SizedBox(
+        height: 12,
+      ),
       Wrap(
         children: [
           const TextInter(
@@ -175,22 +188,6 @@ class KontakPelangganScreen extends StatelessWidget {
         height: 14,
       ),
     ];
-  }
-
-  Widget separatorWidget() {
-    return Column(
-      children: const [
-        SizedBox(
-          height: 12,
-        ),
-        Divider(
-          thickness: 1,
-        ),
-        SizedBox(
-          height: 12,
-        ),
-      ],
-    );
   }
 
   Widget buildFilterChips({

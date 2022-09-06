@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:scriptmatic_onboarding_app/ui/screens/contact_management/kontak_pelanggan/create_kontak_pelanggan/create_kontak_pelanggan_bloc.dart';
-import 'package:scriptmatic_onboarding_app/ui/screens/contact_management/kontak_pelanggan/create_kontak_pelanggan/create_kontak_pelanggan_state.dart';
+import 'package:scriptmatic_onboarding_app/ui/screens/contact_management/kontak_pelanggan/create_kontak_pelanggan/create_kontak_pelanggan_screen.dart';
+import 'package:scriptmatic_onboarding_app/ui/screens/contact_management/kontak_pelanggan/edit_konta_pelanggan/edit_kontak_pelanggan_bloc.dart';
+import 'package:scriptmatic_onboarding_app/ui/screens/contact_management/kontak_pelanggan/edit_konta_pelanggan/edit_kontak_pelanggan_state.dart';
 import 'package:scriptmatic_onboarding_app/ui/screens/contact_management/kontak_pelanggan/kontak_pelanggan_bloc.dart';
 import 'package:scriptmatic_onboarding_app/ui/widgets/custom_app_bar.dart';
-import 'package:scriptmatic_onboarding_app/ui/widgets/form_input_field_with_icon.dart';
 import 'package:scriptmatic_onboarding_app/ui/widgets/form_with_label_widget.dart';
 import 'package:scriptmatic_onboarding_app/ui/widgets/multiselect.dart';
 import 'package:scriptmatic_onboarding_app/ui/widgets/primary_button.dart';
@@ -15,25 +15,26 @@ import 'package:scriptmatic_onboarding_app/utils/extensions.dart';
 import 'package:scriptmatic_onboarding_app/utils/palette_color.dart';
 import 'package:scriptmatic_onboarding_app/utils/validator.dart';
 
-class CreateKontakPelangganScreen extends StatelessWidget {
-  CreateKontakPelangganScreen({Key? key}) : super(key: key);
+class EditKontakPelangganScreen extends StatelessWidget {
+  EditKontakPelangganScreen({Key? key, required this.data}) : super(key: key);
 
-  final CreateKontakPelangganBloc _bloc = CreateKontakPelangganBloc()..init();
+  final KontakPelanggan data;
+  final EditKontakPelangganBloc _bloc = EditKontakPelangganBloc();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     final KontakPelangganBloc _blocKontak =
         BlocProvider.of<KontakPelangganBloc>(context);
+    _bloc.init(data);
     return BlocProvider(
       create: (context) => _bloc,
       child: Scaffold(
         backgroundColor: PaletteColor.white,
         appBar: const CustomAppBar(
-          title: "Kontak Baru",
+          title: "Edit Kontak",
         ),
-        body:
-            BlocBuilder<CreateKontakPelangganBloc, CreateKontakPelangganState>(
+        body: BlocBuilder<EditKontakPelangganBloc, EditKontakPelangganState>(
           builder: (context, state) {
             return Stack(
               children: [
@@ -48,6 +49,9 @@ class CreateKontakPelangganScreen extends StatelessWidget {
                           height: 24,
                         ),
                         FormWithLabel(
+                          onChanged: (val) {
+                            _bloc.updateState();
+                          },
                           controller: _bloc.nameController,
                           label: "Name",
                           labelText: "Masukan Nama",
@@ -64,6 +68,9 @@ class CreateKontakPelangganScreen extends StatelessWidget {
                           height: 14,
                         ),
                         FormWithLabel(
+                          onChanged: (val) {
+                            _bloc.updateState();
+                          },
                           controller: _bloc.handphoneController,
                           label: "Nomer Telepon",
                           labelText: "Masukan Nomer Telepon",
@@ -97,8 +104,7 @@ class CreateKontakPelangganScreen extends StatelessWidget {
                           child: DropDownMultiSelect(
                             whenEmpty: "Pilih Group Pelanggan",
                             onChanged: (val) {
-                              debugPrint("changed");
-                              _bloc.setSelectedList();
+                              _bloc.updateState();
                               _bloc.validateDropdown();
                             },
                             selectedValues: _bloc.dummyListGroup.isNotEmpty
@@ -220,8 +226,7 @@ class CreateKontakPelangganScreen extends StatelessWidget {
                         _bloc.validateDropdown();
                         if (_formKey.currentState!.validate() &&
                             _bloc.validationDropdownResult == null) {
-                          _blocKontak.addContact(
-                              _bloc.createContactObj(_blocKontak.countList()));
+                          _blocKontak.editContact(_bloc.createContactObj());
                           RouteApp.popScreen(context);
                         }
                       },

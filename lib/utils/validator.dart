@@ -57,7 +57,7 @@ class Validator {
     String pattern = r'^.{1,}$';
     RegExp regex = RegExp(pattern);
     if (!regex.hasMatch(value!)) {
-      return "Inputan kosong";
+      return "Wajib Diisi!";
     } else {
       return null;
     }

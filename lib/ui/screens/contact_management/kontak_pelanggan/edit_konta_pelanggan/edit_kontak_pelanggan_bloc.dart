@@ -1,12 +1,11 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:scriptmatic_onboarding_app/ui/screens/contact_management/kontak_pelanggan/create_kontak_pelanggan/create_kontak_pelanggan_state.dart';
+import 'package:scriptmatic_onboarding_app/ui/screens/contact_management/kontak_pelanggan/edit_konta_pelanggan/edit_kontak_pelanggan_state.dart';
 import 'package:scriptmatic_onboarding_app/ui/screens/contact_management/kontak_pelanggan/kontak_pelanggan_bloc.dart';
 
-class CreateKontakPelangganBloc extends Cubit<CreateKontakPelangganState> {
-  CreateKontakPelangganBloc() : super(CreateKontakPelangganInitial());
+class EditKontakPelangganBloc extends Cubit<EditKontakPelangganState> {
+  EditKontakPelangganBloc() : super(EditKontakPelangganInitial());
 
-  // final List<String> dummyListGroup = [];
   final List<String> dummyListGroup =
       GrupPelanggan.values.map((e) => e.value).toList();
 
@@ -15,15 +14,18 @@ class CreateKontakPelangganBloc extends Cubit<CreateKontakPelangganState> {
   TextEditingController handphoneController = TextEditingController();
 
   String? validationDropdownResult;
+  int? selectedId;
 
-  /*  For Backend Component  */
-  void init() {
-    emit(CreateKontakPelangganLoaded());
-    // emit(KontakPelangganLoaded([]));
+  void init(KontakPelanggan data) {
+    nameController.text = data.name;
+    handphoneController.text = data.number;
+    selectedListGroup = data.types.map((e) => e.value).toList();
+    selectedId = data.id;
+    emit(EditKontakPelangganLoaded());
   }
 
-  setSelectedList() {
-    emit(CreateKontakPelangganChangeState());
+  updateState() {
+    emit(EditKontakPelangganChangeState());
   }
 
   List<GrupPelanggan> getListGroup() {
@@ -38,9 +40,9 @@ class CreateKontakPelangganBloc extends Cubit<CreateKontakPelangganState> {
     return dataList;
   }
 
-  KontakPelanggan createContactObj(int id) {
+  KontakPelanggan createContactObj() {
     return KontakPelanggan(
-        id: id,
+        id: selectedId ?? -1,
         name: nameController.text,
         number: handphoneController.text,
         types: getListGroup(),
@@ -53,7 +55,7 @@ class CreateKontakPelangganBloc extends Cubit<CreateKontakPelangganState> {
     } else {
       validationDropdownResult = null;
     }
-    emit(CreateKontakPelangganChangeState());
+    emit(EditKontakPelangganChangeState());
   }
 
   bool isCompleted() {

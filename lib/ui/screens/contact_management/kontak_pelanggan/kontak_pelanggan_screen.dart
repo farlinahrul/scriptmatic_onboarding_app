@@ -7,6 +7,7 @@ import 'package:scriptmatic_onboarding_app/ui/screens/contact_management/kontak_
 import 'package:scriptmatic_onboarding_app/ui/screens/contact_management/kontak_pelanggan/components/empty_contact_widget.dart';
 import 'package:scriptmatic_onboarding_app/ui/screens/contact_management/kontak_pelanggan/components/kontak_pelanggan_action_tile.dart';
 import 'package:scriptmatic_onboarding_app/ui/screens/contact_management/kontak_pelanggan/create_kontak_pelanggan/create_kontak_pelanggan_screen.dart';
+import 'package:scriptmatic_onboarding_app/ui/screens/contact_management/kontak_pelanggan/edit_konta_pelanggan/edit_kontak_pelanggan_screen.dart';
 import 'package:scriptmatic_onboarding_app/ui/screens/contact_management/kontak_pelanggan/kontak_pelanggan_bloc.dart';
 import 'package:scriptmatic_onboarding_app/ui/screens/contact_management/kontak_pelanggan/kontak_pelanggan_state.dart';
 import 'package:scriptmatic_onboarding_app/ui/widgets/bottom_sheet_helper.dart';
@@ -24,132 +25,156 @@ import 'package:scriptmatic_onboarding_app/utils/palette_color.dart';
 class KontakPelangganScreen extends StatelessWidget {
   KontakPelangganScreen({Key? key}) : super(key: key);
 
-  final KontakPelangganBloc _bloc = KontakPelangganBloc()..init();
+  late KontakPelangganBloc _bloc;
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => _bloc,
-      child: Scaffold(
-        backgroundColor: PaletteColor.white,
-        appBar: const CustomAppBar(
-          title: "Kontak Pelanggan",
-        ),
-        body: NestedScrollView(
-          headerSliverBuilder: ((context, innerBoxIsScrolled) {
-            return customHeaderSliver(context, innerBoxIsScrolled);
-          }),
-          body: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      RouteApp.pushScreen(
-                          context, CreateKontakPelangganScreen());
-                    },
-                    child: const KontakPelangganActionTile(
-                      text: "Tambahkan Kontak",
-                      svgPath: AppIconsPaths.addUser,
-                    ),
-                  ),
-                  separatorWidget(),
-                  const KontakPelangganActionTile(
-                    text: "Sinkronisasikan Kontak",
-                    svgPath: AppIconsPaths.syncUser,
-                  ),
-                  separatorWidget(),
-                  Wrap(
+    _bloc = context.read<KontakPelangganBloc>()..init();
+    return Scaffold(
+      backgroundColor: PaletteColor.white,
+      appBar: const CustomAppBar(
+        title: "Kontak Pelanggan",
+      ),
+      body: NestedScrollView(
+        headerSliverBuilder: ((context, innerBoxIsScrolled) {
+          return customHeaderSliver(context, innerBoxIsScrolled);
+        }),
+        body: BlocBuilder<KontakPelangganBloc, KontakPelangganState>(
+          builder: (context, state) {
+            List<KontakPelanggan> dataList = [];
+            if (state is KontakPelangganLoaded) {
+              dataList = state.data;
+            } else if (state is KontakPelangganLoadedWithFilterState) {
+              dataList = state.data;
+            }
+
+            if (dataList.isNotEmpty) {
+              return SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const TextInter(
-                        text: "Daftar Kontak Pelanggan",
-                        size: 16,
-                        fontWeight: Weightenum.bold,
-                      ),
+                      ...constantBodyWidgets(context),
                       BlocBuilder<KontakPelangganBloc, KontakPelangganState>(
                         builder: (context, state) {
-                          if (state is KontakPelangganLoaded) {
-                            return TextInter(
-                              text: " (${state.data.length} Kontak)",
-                              size: 16,
-                              fontWeight: Weightenum.medium,
-                              color: PaletteColor.textGrey,
+                          if (state is KontakPelangganLoadedWithFilterState &&
+                              state.data.isNotEmpty) {
+                            return Center(
+                              child: TextInter(
+                                text: "${state.data.length} KONTAK DITEMUKAN",
+                                size: 13,
+                                fontWeight: Weightenum.semiBold,
+                                color: PaletteColor.textGrey,
+                              ),
                             );
                           }
                           return const SizedBox();
                         },
-                      )
+                      ),
+                      const SizedBox(
+                        height: 14,
+                      ),
+                      ListView.separated(
+                        shrinkWrap: true,
+                        physics: const ClampingScrollPhysics(),
+                        itemCount: dataList.length,
+                        itemBuilder: (context, index) {
+                          KontakPelanggan data = dataList[index];
+                          return ContactTile(
+                            name: data.name,
+                            number: data.number,
+                            types: data.types,
+                            onTap: () {
+                              RouteApp.pushScreen(
+                                  context,
+                                  EditKontakPelangganScreen(
+                                    data: data,
+                                  ));
+                            },
+                          );
+                        },
+                        separatorBuilder: (context, index) {
+                          return const Divider();
+                        },
+                      ),
+                      const SizedBox(
+                        height: 24,
+                      ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 14,
-                  ),
-                  BlocBuilder<KontakPelangganBloc, KontakPelangganState>(
-                    builder: (context, state) {
-                      if (state is KontakPelangganLoadedWithFilterState &&
-                          state.data.isNotEmpty) {
-                        return Center(
-                          child: TextInter(
-                            text: "${state.data.length} KONTAK DITEMUKAN",
-                            size: 13,
-                            fontWeight: Weightenum.semiBold,
-                            color: PaletteColor.textGrey,
-                          ),
-                        );
-                      }
-                      return const SizedBox();
-                    },
-                  ),
-                  const SizedBox(
-                    height: 14,
-                  ),
-                  BlocBuilder<KontakPelangganBloc, KontakPelangganState>(
-                    builder: (context, state) {
-                      List<KontakPelanggan> dataList = [];
-                      if (state is KontakPelangganLoaded) {
-                        dataList = state.data;
-                      } else if (state
-                          is KontakPelangganLoadedWithFilterState) {
-                        dataList = state.data;
-                      }
-                      if (dataList.isNotEmpty) {
-                        return ListView.separated(
-                          shrinkWrap: true,
-                          physics: const ClampingScrollPhysics(),
-                          itemCount: dataList.length,
-                          itemBuilder: (context, index) {
-                            KontakPelanggan data = dataList[index];
-                            return ContactTile(
-                              name: data.name,
-                              number: data.number,
-                              type: data.type.value,
-                              color: data.type.color,
-                            );
-                          },
-                          separatorBuilder: (context, index) {
-                            return const Divider();
-                          },
-                        );
-                      } else {
-                        return const EmptyContactWidget();
-                      }
-                    },
-                  ),
-                  const SizedBox(
-                    height: 24,
-                  ),
-                ],
-              ),
-            ),
-          ),
+                ),
+              );
+            } else {
+              return Padding(
+                padding: EdgeInsets.symmetric(horizontal: 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ...constantBodyWidgets(context),
+                    const SizedBox(
+                      height: 14,
+                    ),
+                    const Expanded(child: EmptyContactWidget()),
+                    const SizedBox(
+                      height: 24,
+                    ),
+                  ],
+                ),
+              );
+            }
+          },
         ),
       ),
     );
+  }
+
+  List<Widget> constantBodyWidgets(BuildContext context) {
+    return [
+      const SizedBox(
+        height: 20,
+      ),
+      GestureDetector(
+        onTap: () {
+          RouteApp.pushScreen(context, CreateKontakPelangganScreen());
+        },
+        child: const KontakPelangganActionTile(
+          text: "Tambahkan Kontak",
+          svgPath: AppIconsPaths.addUser,
+        ),
+      ),
+      separatorWidget(),
+      const KontakPelangganActionTile(
+        text: "Sinkronisasikan Kontak",
+        svgPath: AppIconsPaths.syncUser,
+      ),
+      separatorWidget(),
+      Wrap(
+        children: [
+          const TextInter(
+            text: "Daftar Kontak Pelanggan",
+            size: 16,
+            fontWeight: Weightenum.bold,
+          ),
+          BlocBuilder<KontakPelangganBloc, KontakPelangganState>(
+            builder: (context, state) {
+              if (state is KontakPelangganLoaded) {
+                return TextInter(
+                  text: " (${state.data.length} Kontak)",
+                  size: 16,
+                  fontWeight: Weightenum.medium,
+                  color: PaletteColor.textGrey,
+                );
+              }
+              return const SizedBox();
+            },
+          )
+        ],
+      ),
+      const SizedBox(
+        height: 14,
+      ),
+    ];
   }
 
   Widget separatorWidget() {
@@ -181,9 +206,9 @@ class KontakPelangganScreen extends StatelessWidget {
               .map(
                 (str) => ChoiceChip(
                   label: TextInter(
-                    text: str,
+                    text: str.toUpperCase(),
                     fontWeight: Weightenum.semiBold,
-                    size: 14,
+                    size: 12,
                     color: selectedGroupFilterTemp.contains(str)
                         ? PaletteColor.primary20
                         : PaletteColor.primary,
@@ -216,9 +241,9 @@ class KontakPelangganScreen extends StatelessWidget {
               .map(
                 (str) => ChoiceChip(
                   label: TextInter(
-                    text: str,
+                    text: str.toUpperCase(),
                     fontWeight: Weightenum.semiBold,
-                    size: 14,
+                    size: 12,
                     color: selectedSort == str
                         ? PaletteColor.primary20
                         : PaletteColor.primary,

@@ -43,8 +43,8 @@ dependencies:
   # Carousel Image Slider
   carousel_slider: ^4.1.1
   flutter_svg: 1.0.3
-  multiselect: 0.0.4
   modal_bottom_sheet: ^2.0.0
+  states_rebuilder: 5.0.0
 
 
   # The following adds the Cupertino Icons font to your application.

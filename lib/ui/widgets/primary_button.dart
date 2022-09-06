@@ -15,6 +15,7 @@ class PrimaryButton extends StatelessWidget {
   final double marginHorizontal;
   final String? title;
   final bool reverse;
+  final bool forceAction;
 
   const PrimaryButton({
     Key? key,
@@ -29,6 +30,7 @@ class PrimaryButton extends StatelessWidget {
     this.shadowed = true,
     this.reverse = false,
     this.marginHorizontal = 0,
+    this.forceAction = false,
   }) : super(key: key);
 
   @override
@@ -68,7 +70,7 @@ class PrimaryButton extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           borderRadius: BorderRadius.circular(borderRadius ?? 12),
-          onTap: enabled ? onPressed ?? () {} : null,
+          onTap: enabled || forceAction ? onPressed ?? () {} : null,
           child: Center(
             child: child ??
                 TextInter(

@@ -5,6 +5,7 @@ import 'package:scriptmatic_onboarding_app/ui/screens/auth/login/login_bloc.dart
 import 'package:scriptmatic_onboarding_app/ui/screens/auth/login/login_state.dart';
 import 'package:scriptmatic_onboarding_app/ui/screens/auth/register/register_screen.dart';
 import 'package:scriptmatic_onboarding_app/ui/screens/contact_management/kontak_pelanggan/kontak_pelanggan_screen.dart';
+import 'package:scriptmatic_onboarding_app/ui/screens/dashboard_screen.dart';
 import 'package:scriptmatic_onboarding_app/ui/widgets/form_input_field_with_icon.dart';
 import 'package:scriptmatic_onboarding_app/ui/widgets/primary_button.dart';
 import 'package:scriptmatic_onboarding_app/ui/widgets/text/text_inter.dart';
@@ -130,8 +131,7 @@ class LoginScreen extends StatelessWidget {
                       PrimaryButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            RouteApp.pushScreen(
-                                context, KontakPelangganScreen());
+                            RouteApp.pushScreen(context, DashboardScreen());
                           }
                         },
                         title: "Login",

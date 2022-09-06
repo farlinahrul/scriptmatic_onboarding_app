@@ -16,13 +16,10 @@ class EmptyContactWidget extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const SizedBox(
-            height: 36,
-          ),
           Image.asset(
             AppImagePaths.emptyList,
             width: MediaQuery.of(context).size.width / 2.2,
-            fit: BoxFit.fitWidth,
+            fit: BoxFit.contain,
           ),
           const SizedBox(
             height: 24,

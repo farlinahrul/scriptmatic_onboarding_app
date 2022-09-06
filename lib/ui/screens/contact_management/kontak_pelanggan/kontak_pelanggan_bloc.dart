@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/painting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scriptmatic_onboarding_app/ui/screens/contact_management/kontak_pelanggan/kontak_pelanggan_state.dart';
 import 'package:scriptmatic_onboarding_app/utils/palette_color.dart';
@@ -23,99 +22,120 @@ class KontakPelangganBloc extends Cubit<KontakPelangganState> {
 
   final List<KontakPelanggan> _dummyListKontak = [
     KontakPelanggan(
+      id: 1,
       name: "Brad Simmons",
       number: "0893452887643",
-      type: GrupPelanggan.loyalCustomer,
+      types: [
+        GrupPelanggan.loyalCustomer,
+        GrupPelanggan.tokopedia,
+        GrupPelanggan.menWear,
+        GrupPelanggan.shopee,
+      ],
       created: 1,
     ),
     KontakPelanggan(
+      id: 2,
       name: "Farli Nahrul",
       number: "089300871672",
-      type: GrupPelanggan.newCustomer,
+      types: [GrupPelanggan.newCustomer],
       created: 2,
     ),
     KontakPelanggan(
+      id: 3,
       name: "Javier Nahrul",
       number: "089312785628",
-      type: GrupPelanggan.returningCustomer,
+      types: [GrupPelanggan.returningCustomer],
       created: 3,
     ),
     KontakPelanggan(
+      id: 4,
       name: "Nahrul Farli",
       number: "082251641111",
-      type: GrupPelanggan.shopee,
+      types: [GrupPelanggan.shopee],
       created: 4,
     ),
     KontakPelanggan(
+      id: 5,
       name: "Nahrul Farli",
       number: "082251641111",
-      type: GrupPelanggan.tokopedia,
+      types: [GrupPelanggan.tokopedia],
       created: 5,
     ),
     KontakPelanggan(
+      id: 6,
       name: "Nahrul Farli",
       number: "082251641111",
-      type: GrupPelanggan.tokopedia,
+      types: [GrupPelanggan.tokopedia],
       created: 7,
     ),
     KontakPelanggan(
+      id: 7,
       name: "Nahrul Farli",
       number: "082251641111",
-      type: GrupPelanggan.tokopedia,
+      types: [GrupPelanggan.tokopedia],
       created: 8,
     ),
     KontakPelanggan(
+      id: 8,
       name: "Nahrul Farli",
       number: "082251641111",
-      type: GrupPelanggan.tokopedia,
+      types: [GrupPelanggan.tokopedia],
       created: 9,
     ),
     KontakPelanggan(
+      id: 9,
       name: "Nahrul Farli",
       number: "082251641111",
-      type: GrupPelanggan.tokopedia,
+      types: [GrupPelanggan.tokopedia],
       created: 10,
     ),
     KontakPelanggan(
+      id: 10,
       name: "Nahrul Farli",
       number: "082251641111",
-      type: GrupPelanggan.tokopedia,
+      types: [GrupPelanggan.tokopedia],
       created: 11,
     ),
     KontakPelanggan(
+      id: 11,
       name: "Nahrul Farli",
       number: "082251641111",
-      type: GrupPelanggan.tokopedia,
+      types: [GrupPelanggan.tokopedia],
       created: 12,
     ),
     KontakPelanggan(
+      id: 12,
       name: "Nahrul Farli",
       number: "082251641111",
-      type: GrupPelanggan.tokopedia,
+      types: [GrupPelanggan.tokopedia],
       created: 13,
     ),
     KontakPelanggan(
+      id: 13,
       name: "Nahrul Farli",
       number: "082251641111",
-      type: GrupPelanggan.menWear,
+      types: [GrupPelanggan.menWear],
       created: 6,
     ),
     KontakPelanggan(
+      id: 14,
       name: "Alpha",
       number: "082251641111",
-      type: GrupPelanggan.menWear,
+      types: [GrupPelanggan.menWear],
       created: 13,
     ),
     KontakPelanggan(
+      id: 15,
       name: "Beta",
       number: "082251641111",
-      type: GrupPelanggan.shopee,
+      types: [GrupPelanggan.shopee],
       created: 13,
     ),
     KontakPelanggan(
+      id: 16,
       name: "Cicak",
       number: "082251641111",
-      type: GrupPelanggan.loyalCustomer,
+      types: [GrupPelanggan.loyalCustomer],
       created: 13,
     ),
   ];
@@ -126,7 +146,20 @@ class KontakPelangganBloc extends Cubit<KontakPelangganState> {
     // emit(KontakPelangganLoaded([]));
   }
 
-  void addContact() {}
+  void addContact(KontakPelanggan obj) {
+    _dummyListKontak.add(obj);
+    init();
+  }
+
+  void editContact(KontakPelanggan obj) {
+    for (var i = 0; i < _dummyListKontak.length; i++) {
+      if (_dummyListKontak[i].id == obj.id) {
+        _dummyListKontak[i] = obj;
+        init();
+        return;
+      }
+    }
+  }
 
   void setSelectedGroupFilter(final bool selected, final String value) {
     if (selected) {
@@ -152,6 +185,10 @@ class KontakPelangganBloc extends Cubit<KontakPelangganState> {
     selectedGroupFilter = [];
   }
 
+  int countList() {
+    return _dummyListKontak.length;
+  }
+
   List<KontakPelanggan> _sortList(List<KontakPelanggan> dataList) {
     if (selectedSort == null) {
       return dataList;
@@ -166,9 +203,15 @@ class KontakPelangganBloc extends Cubit<KontakPelangganState> {
     if (selectedGroupFilter.isEmpty) {
       return dataList;
     }
-    return dataList
-        .where((element) => selectedGroupFilter.contains(element.type.value))
-        .toList();
+    for (var element in dataList) {
+      for (var type in element.types) {
+        if (selectedGroupFilter.contains(type.value)) {
+          dataList.add(element);
+          break;
+        }
+      }
+    }
+    return dataList;
   }
 
   List<KontakPelanggan> _searchList(List<KontakPelanggan> dataList) {
@@ -195,16 +238,18 @@ class KontakPelangganBloc extends Cubit<KontakPelangganState> {
 
 /* Temporary data. Just for UI but may be used for logic */
 class KontakPelanggan {
+  final int id;
   final String name, number;
-  final GrupPelanggan type;
+  final List<GrupPelanggan> types;
   // it must be DateTime
   final int created;
 
   KontakPelanggan({
     required this.name,
     required this.number,
-    required this.type,
+    required this.types,
     required this.created,
+    required this.id,
   });
 }
 

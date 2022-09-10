@@ -31,6 +31,7 @@ class KontakPelangganScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     _bloc = context.read<KontakPelangganBloc>()..init();
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: PaletteColor.white,
       appBar: const CustomAppBar(
         title: "Kontak Pelanggan",
@@ -54,6 +55,7 @@ class KontakPelangganScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       ...constantBodyWidgets(context),
                       BlocBuilder<KontakPelangganBloc, KontakPelangganState>(

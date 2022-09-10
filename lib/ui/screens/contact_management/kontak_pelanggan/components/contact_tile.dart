@@ -19,10 +19,25 @@ class ContactTile extends StatelessWidget {
   final List<GrupPelanggan> types;
   final void Function() onTap;
 
+  List<Widget> addSeparatorOnListWidget(
+      List<Widget> widgets, Widget separator) {
+    List<Widget> joined = [];
+
+    for (var i = 0; i < widgets.length; i++) {
+      if (i != widgets.length - 1) {
+        joined.add(widgets[i]);
+        joined.add(separator);
+      } else {
+        joined.add(widgets[i]);
+      }
+    }
+    return joined;
+  }
+
   List<Widget> generateWidgets() {
     return types
         .map((e) => TextInter(
-              text: '${e.value} ',
+              text: e.value,
               size: 13,
               fontWeight: Weightenum.bold,
               color: e.color,
@@ -60,7 +75,15 @@ class ContactTile extends StatelessWidget {
                   height: 3,
                 ),
                 Wrap(
-                  children: generateWidgets(),
+                  children: addSeparatorOnListWidget(
+                    generateWidgets(),
+                    const TextInter(
+                      text: ', ',
+                      size: 13,
+                      fontWeight: Weightenum.bold,
+                      color: PaletteColor.textGrey,
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -76,7 +99,7 @@ class ContactTile extends StatelessWidget {
               child: Image.asset(
                 AppImagePaths.editUser,
                 width: 16,
-                fit: BoxFit.fitWidth,
+                height: 16,
               ),
             ),
           )

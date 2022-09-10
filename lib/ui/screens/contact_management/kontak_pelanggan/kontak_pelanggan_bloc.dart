@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scriptmatic_onboarding_app/ui/screens/contact_management/kontak_pelanggan/kontak_pelanggan_state.dart';
+import 'package:scriptmatic_onboarding_app/utils/constants.dart';
 import 'package:scriptmatic_onboarding_app/utils/palette_color.dart';
 
 class KontakPelangganBloc extends Cubit<KontakPelangganState> {
@@ -197,7 +198,7 @@ class KontakPelangganBloc extends Cubit<KontakPelangganState> {
     }
     dataList.sort(Sort.values
         .firstWhere((element) => element.value == selectedSort!)
-        .logic);
+        .logicKontak);
     return dataList;
   }
 
@@ -253,32 +254,6 @@ class KontakPelanggan {
     required this.created,
     required this.id,
   });
-}
-
-enum Sort {
-  oldestOnTop,
-  newestOnTop,
-  nameDescending,
-  nameAscending,
-}
-
-extension SortExt on Sort {
-  static const Map<Sort, String> values = {
-    Sort.oldestOnTop: "OLDEST ON TOP",
-    Sort.newestOnTop: "NEWEST ON TOP",
-    Sort.nameDescending: "NAME DESCENDING",
-    Sort.nameAscending: "NAME ASCENDING",
-  };
-
-  static Map<Sort, int Function(KontakPelanggan, KontakPelanggan)> logics = {
-    Sort.oldestOnTop: (a, b) => a.created.compareTo(b.created),
-    Sort.newestOnTop: (a, b) => b.created.compareTo(a.created),
-    Sort.nameDescending: (a, b) => b.name.compareTo(a.name),
-    Sort.nameAscending: (a, b) => a.name.compareTo(b.name),
-  };
-
-  String get value => values[this]!;
-  int Function(KontakPelanggan, KontakPelanggan) get logic => logics[this]!;
 }
 
 enum GrupPelanggan {

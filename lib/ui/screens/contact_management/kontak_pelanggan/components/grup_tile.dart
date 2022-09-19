@@ -5,20 +5,18 @@ import 'package:scriptmatic_onboarding_app/utils/constants.dart';
 import 'package:scriptmatic_onboarding_app/utils/images.dart';
 import 'package:scriptmatic_onboarding_app/utils/palette_color.dart';
 
-import '../grup_pelanggan/grup_pelanggan_bloc.dart';
-
-class ContactTile extends StatelessWidget {
-  const ContactTile({
+class GrupTile extends StatelessWidget {
+  const GrupTile({
     Key? key,
     required this.name,
-    required this.number,
-    required this.types,
+    required this.countContacts,
     required this.onTap,
+    required this.color,
   }) : super(key: key);
 
   final String name;
-  final String number;
-  final List<GrupPelanggan> types;
+  final int countContacts;
+  final Color color;
   final void Function() onTap;
 
   List<Widget> addSeparatorOnListWidget(
@@ -34,17 +32,6 @@ class ContactTile extends StatelessWidget {
       }
     }
     return joined;
-  }
-
-  List<Widget> generateWidgets() {
-    return types
-        .map((e) => TextInter(
-              text: e.name,
-              size: 13,
-              fontWeight: Weightenum.bold,
-              color: e.color,
-            ))
-        .toList();
   }
 
   @override
@@ -63,29 +50,16 @@ class ContactTile extends StatelessWidget {
                   text: name,
                   size: 16,
                   fontWeight: Weightenum.bold,
+                  color: color,
                 ),
                 const SizedBox(
                   height: 3,
                 ),
                 TextInter(
-                  text: number,
+                  text: '$countContacts Peserta',
                   size: 13,
                   fontWeight: Weightenum.medium,
                   color: PaletteColor.textSecondary2,
-                ),
-                const SizedBox(
-                  height: 3,
-                ),
-                Wrap(
-                  children: addSeparatorOnListWidget(
-                    generateWidgets(),
-                    const TextInter(
-                      text: ', ',
-                      size: 13,
-                      fontWeight: Weightenum.bold,
-                      color: PaletteColor.textGrey,
-                    ),
-                  ),
                 ),
               ],
             ),
@@ -93,15 +67,15 @@ class ContactTile extends StatelessWidget {
           InkWell(
             onTap: onTap,
             child: Ink(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(4),
                 color: PaletteColor.grey20,
               ),
               child: Image.asset(
                 AppImagePaths.editUser,
-                width: 16,
-                fit: BoxFit.fitWidth,
+                width: 14,
+                height: 14,
               ),
             ),
           )

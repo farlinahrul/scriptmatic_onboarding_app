@@ -10,18 +10,14 @@ import 'package:scriptmatic_onboarding_app/utils/palette_color.dart';
 
 class CustomSearchDelegate extends custom.SearchDelegate<String> {
   CustomSearchDelegate(
-      {required this.contextPage, this.controller, String? initQuery});
+      {required this.contextPage,
+      this.controller,
+      String? initQuery,
+      required this.suggestions});
 
   BuildContext contextPage;
   TextEditingController? controller;
-  List<String> suggestions = [
-    "Farli",
-    "Nahrul",
-    "Javier",
-    "Alpha",
-    "Beta",
-    "Testing",
-  ];
+  final List<String> suggestions;
 
   @override
   ThemeData appBarTheme(BuildContext context) {

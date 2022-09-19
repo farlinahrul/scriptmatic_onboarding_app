@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:scriptmatic_onboarding_app/ui/screens/contact_management/kontak_pelanggan/kontak_pelanggan_screen.dart';
-import 'package:scriptmatic_onboarding_app/ui/screens/grup_pelanggan/grup_pelanggan_screen.dart';
 import 'package:scriptmatic_onboarding_app/ui/widgets/custom_app_bar.dart';
 import 'package:scriptmatic_onboarding_app/ui/widgets/primary_button.dart';
 import 'package:scriptmatic_onboarding_app/utils/extensions.dart';
 import 'package:scriptmatic_onboarding_app/utils/palette_color.dart';
+
+import 'contact_management/kontak_pelanggan/grup_pelanggan/grup_pelanggan_screen.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({Key? key}) : super(key: key);

@@ -8,7 +8,12 @@ import 'package:scriptmatic_onboarding_app/utils/palette_color.dart';
 class EmptyContactWidget extends StatelessWidget {
   const EmptyContactWidget({
     Key? key,
+    required this.textButton,
+    required this.onPressed,
   }) : super(key: key);
+
+  final String textButton;
+  final Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -41,9 +46,10 @@ class EmptyContactWidget extends StatelessWidget {
           const SizedBox(
             height: 24,
           ),
-          const Flexible(
+          Flexible(
             child: PrimarySmallButton(
-              title: "Sinkronisasikan Kontak",
+              title: textButton,
+              onPressed: onPressed,
             ),
           )
         ],

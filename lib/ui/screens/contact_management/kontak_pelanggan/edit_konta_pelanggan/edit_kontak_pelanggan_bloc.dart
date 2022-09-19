@@ -3,11 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scriptmatic_onboarding_app/ui/screens/contact_management/kontak_pelanggan/edit_konta_pelanggan/edit_kontak_pelanggan_state.dart';
 import 'package:scriptmatic_onboarding_app/ui/screens/contact_management/kontak_pelanggan/kontak_pelanggan_bloc.dart';
 
+import '../grup_pelanggan/grup_pelanggan_bloc.dart';
+
 class EditKontakPelangganBloc extends Cubit<EditKontakPelangganState> {
   EditKontakPelangganBloc() : super(EditKontakPelangganInitial());
 
   final List<String> dummyListGroup =
-      GrupPelanggan.values.map((e) => e.value).toList();
+      GrupPelangganBloc().dummyListGrup.map((e) => e.name.toUpperCase()).toList();
 
   List<String> selectedListGroup = [];
   TextEditingController nameController = TextEditingController();
@@ -19,7 +21,7 @@ class EditKontakPelangganBloc extends Cubit<EditKontakPelangganState> {
   void init(KontakPelanggan data) {
     nameController.text = data.name;
     handphoneController.text = data.number;
-    selectedListGroup = data.types.map((e) => e.value).toList();
+    selectedListGroup = data.types.map((e) => e.name.toUpperCase()).toList();
     selectedId = data.id;
     emit(EditKontakPelangganLoaded());
   }
@@ -30,9 +32,9 @@ class EditKontakPelangganBloc extends Cubit<EditKontakPelangganState> {
 
   List<GrupPelanggan> getListGroup() {
     List<GrupPelanggan> dataList = [];
-    for (var element in GrupPelanggan.values) {
+    for (var element in GrupPelangganBloc().dummyListGrup) {
       for (var selected in selectedListGroup) {
-        if (element.value == selected) {
+        if (element.name.toUpperCase() == selected) {
           dataList.add(element);
         }
       }

@@ -3,12 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scriptmatic_onboarding_app/ui/screens/contact_management/kontak_pelanggan/create_kontak_pelanggan/create_kontak_pelanggan_state.dart';
 import 'package:scriptmatic_onboarding_app/ui/screens/contact_management/kontak_pelanggan/kontak_pelanggan_bloc.dart';
 
+import '../grup_pelanggan/grup_pelanggan_bloc.dart';
+
 class CreateKontakPelangganBloc extends Cubit<CreateKontakPelangganState> {
   CreateKontakPelangganBloc() : super(CreateKontakPelangganInitial());
 
   // final List<String> dummyListGroup = [];
   final List<String> dummyListGroup =
-      GrupPelanggan.values.map((e) => e.value).toList();
+      GrupPelangganBloc().dummyListGrup.map((e) => e.name).toList();
 
   List<String> selectedListGroup = [];
   TextEditingController nameController = TextEditingController();
@@ -28,9 +30,9 @@ class CreateKontakPelangganBloc extends Cubit<CreateKontakPelangganState> {
 
   List<GrupPelanggan> getListGroup() {
     List<GrupPelanggan> dataList = [];
-    for (var element in GrupPelanggan.values) {
+    for (var element in GrupPelangganBloc().dummyListGrup) {
       for (var selected in selectedListGroup) {
-        if (element.value == selected) {
+        if (element.name == selected) {
           dataList.add(element);
         }
       }

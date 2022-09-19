@@ -1,16 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:scriptmatic_onboarding_app/ui/screens/contact_management/kontak_pelanggan/components/contact_tile.dart';
 import 'package:scriptmatic_onboarding_app/ui/screens/contact_management/kontak_pelanggan/components/custom_header_bottom_sheet.dart';
 import 'package:scriptmatic_onboarding_app/ui/screens/contact_management/kontak_pelanggan/components/custom_search_delegate.dart';
 import 'package:scriptmatic_onboarding_app/ui/screens/contact_management/kontak_pelanggan/components/empty_contact_widget.dart';
-import 'package:scriptmatic_onboarding_app/ui/screens/contact_management/kontak_pelanggan/components/kontak_pelanggan_action_tile.dart';
-import 'package:scriptmatic_onboarding_app/ui/screens/contact_management/kontak_pelanggan/create_kontak_pelanggan/create_kontak_pelanggan_screen.dart';
-import 'package:scriptmatic_onboarding_app/ui/screens/contact_management/kontak_pelanggan/edit_konta_pelanggan/edit_kontak_pelanggan_screen.dart';
-import 'package:scriptmatic_onboarding_app/ui/screens/contact_management/kontak_pelanggan/kontak_pelanggan_bloc.dart';
-import 'package:scriptmatic_onboarding_app/ui/screens/contact_management/kontak_pelanggan/kontak_pelanggan_state.dart';
-import 'package:scriptmatic_onboarding_app/ui/screens/contact_management/kontak_pelanggan/sinkronisasi_kontak/sinkronisasi_kontak_screen.dart';
+import 'package:scriptmatic_onboarding_app/ui/screens/contact_management/kontak_pelanggan/grup_pelanggan/grup_pelanggan_state.dart';
 import 'package:scriptmatic_onboarding_app/ui/widgets/bottom_sheet_helper.dart';
 import 'package:scriptmatic_onboarding_app/ui/widgets/custom_app_bar.dart';
 import 'package:scriptmatic_onboarding_app/ui/widgets/form_search.dart';
@@ -23,30 +17,36 @@ import 'package:scriptmatic_onboarding_app/utils/extensions.dart';
 import 'package:scriptmatic_onboarding_app/utils/images.dart';
 import 'package:scriptmatic_onboarding_app/utils/palette_color.dart';
 
-class KontakPelangganScreen extends StatelessWidget {
-  KontakPelangganScreen({Key? key}) : super(key: key);
+import '../components/grup_tile.dart';
+import '../components/kontak_pelanggan_action_tile.dart';
+import 'create_grup_pelanggan/create_grup_pelanggan_list_screen.dart';
+import 'edit_grup_pelanggan/edit_grup_pelanggan_screen.dart';
+import 'grup_pelanggan_bloc.dart';
 
-  late KontakPelangganBloc _bloc;
+class GrupPelangganScreen extends StatelessWidget {
+  GrupPelangganScreen({Key? key}) : super(key: key);
+
+  late GrupPelangganBloc _bloc;
 
   @override
   Widget build(BuildContext context) {
-    _bloc = context.read<KontakPelangganBloc>()..init();
+    _bloc = context.read<GrupPelangganBloc>()..init();
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: PaletteColor.white,
       appBar: const CustomAppBar(
-        title: "Kontak Pelanggan",
+        title: "Grup Pelanggan",
       ),
       body: NestedScrollView(
         headerSliverBuilder: ((context, innerBoxIsScrolled) {
           return customHeaderSliver(context, innerBoxIsScrolled);
         }),
-        body: BlocBuilder<KontakPelangganBloc, KontakPelangganState>(
+        body: BlocBuilder<GrupPelangganBloc, GrupPelangganState>(
           builder: (context, state) {
-            List<KontakPelanggan> dataList = [];
-            if (state is KontakPelangganLoaded) {
+            List<GrupPelanggan> dataList = [];
+            if (state is GrupPelangganLoaded) {
               dataList = state.data;
-            } else if (state is KontakPelangganLoadedWithFilterState) {
+            } else if (state is GrupPelangganLoadedWithFilterState) {
               dataList = state.data;
             }
 
@@ -59,9 +59,9 @@ class KontakPelangganScreen extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       ...constantBodyWidgets(context),
-                      BlocBuilder<KontakPelangganBloc, KontakPelangganState>(
+                      BlocBuilder<GrupPelangganBloc, GrupPelangganState>(
                         builder: (context, state) {
-                          if (state is KontakPelangganLoadedWithFilterState &&
+                          if (state is GrupPelangganLoadedWithFilterState &&
                               state.data.isNotEmpty) {
                             return Center(
                               child: TextInter(
@@ -83,15 +83,15 @@ class KontakPelangganScreen extends StatelessWidget {
                         physics: const ClampingScrollPhysics(),
                         itemCount: dataList.length,
                         itemBuilder: (context, index) {
-                          KontakPelanggan data = dataList[index];
-                          return ContactTile(
+                          GrupPelanggan data = dataList[index];
+                          return GrupTile(
                             name: data.name,
-                            number: data.number,
-                            types: data.types,
+                            countContacts: data.contacts.length,
+                            color: data.color,
                             onTap: () {
                               RouteApp.pushScreen(
                                   context,
-                                  EditKontakPelangganScreen(
+                                  EditGrupPelangganScreen(
                                     data: data,
                                   ));
                             },
@@ -120,10 +120,10 @@ class KontakPelangganScreen extends StatelessWidget {
                     ),
                     Expanded(
                         child: EmptyContactWidget(
-                      textButton: "Sinkronisasikan Kontak",
+                      textButton: "Tambahkan Grup",
                       onPressed: () {
                         RouteApp.pushScreen(
-                            context, SinkronisasiKontakScreen());
+                            context, CreateGrupPelangganListScreen());
                       },
                     )),
                     const SizedBox(
@@ -146,26 +146,12 @@ class KontakPelangganScreen extends StatelessWidget {
       ),
       InkWell(
         onTap: () {
-          RouteApp.pushScreen(context, CreateKontakPelangganScreen());
+          RouteApp.pushScreen(context, CreateGrupPelangganListScreen());
         },
         child: Ink(
           child: const KontakPelangganActionTile(
-            text: "Tambahkan Kontak",
+            text: "Buat Grup Baru",
             svgPath: AppIconsPaths.addUser,
-          ),
-        ),
-      ),
-      const Divider(
-        thickness: 1,
-      ),
-      InkWell(
-        onTap: () {
-          RouteApp.pushScreen(context, SinkronisasiKontakScreen());
-        },
-        child: Ink(
-          child: const KontakPelangganActionTile(
-            text: "Sinkronisasikan Kontak",
-            svgPath: AppIconsPaths.syncUser,
           ),
         ),
       ),
@@ -178,15 +164,15 @@ class KontakPelangganScreen extends StatelessWidget {
       Wrap(
         children: [
           const TextInter(
-            text: "Daftar Kontak Pelanggan",
+            text: "Daftar Grup Pelanggan",
             size: 16,
             fontWeight: Weightenum.bold,
           ),
-          BlocBuilder<KontakPelangganBloc, KontakPelangganState>(
+          BlocBuilder<GrupPelangganBloc, GrupPelangganState>(
             builder: (context, state) {
-              if (state is KontakPelangganLoaded) {
+              if (state is GrupPelangganLoaded) {
                 return TextInter(
-                  text: " (${state.data.length} Kontak)",
+                  text: " (${state.data.length} Grup)",
                   size: 16,
                   fontWeight: Weightenum.medium,
                   color: PaletteColor.textGrey,
@@ -203,40 +189,40 @@ class KontakPelangganScreen extends StatelessWidget {
     ];
   }
 
-  Widget buildFilterChips({
-    required Function(bool, String) onChipSelected,
-    required List<String> selectedGroupFilterTemp,
-  }) =>
-      Align(
-        alignment: Alignment.topLeft,
-        child: Wrap(
-          spacing: 4,
-          runSpacing: 0,
-          children: _bloc.listgroup
-              .map(
-                (str) => ChoiceChip(
-                  label: TextInter(
-                    text: str.toUpperCase(),
-                    fontWeight: Weightenum.semiBold,
-                    size: 12,
-                    color: selectedGroupFilterTemp.contains(str)
-                        ? PaletteColor.primary20
-                        : PaletteColor.primary,
-                  ),
-                  onSelected: (val) {
-                    // setState(() {
-                    //   _bloc.setSelectedGroupFilter(val, str);
-                    // });
-                    onChipSelected(val, str);
-                  },
-                  selectedColor: PaletteColor.primary,
-                  backgroundColor: PaletteColor.primary20,
-                  selected: selectedGroupFilterTemp.contains(str),
-                ),
-              )
-              .toList(),
-        ),
-      );
+  // Widget buildFilterChips({
+  //   required Function(bool, String) onChipSelected,
+  //   required List<String> selectedGroupFilterTemp,
+  // }) =>
+  //     Align(
+  //       alignment: Alignment.topLeft,
+  //       child: Wrap(
+  //         spacing: 4,
+  //         runSpacing: 0,
+  //         children: _bloc.listgroup
+  //             .map(
+  //               (str) => ChoiceChip(
+  //                 label: TextInter(
+  //                   text: str.toUpperCase(),
+  //                   fontWeight: Weightenum.semiBold,
+  //                   size: 12,
+  //                   color: selectedGroupFilterTemp.contains(str)
+  //                       ? PaletteColor.primary20
+  //                       : PaletteColor.primary,
+  //                 ),
+  //                 onSelected: (val) {
+  //                   // setState(() {
+  //                   //   _bloc.setSelectedGroupFilter(val, str);
+  //                   // });
+  //                   onChipSelected(val, str);
+  //                 },
+  //                 selectedColor: PaletteColor.primary,
+  //                 backgroundColor: PaletteColor.primary20,
+  //                 selected: selectedGroupFilterTemp.contains(str),
+  //               ),
+  //             )
+  //             .toList(),
+  //       ),
+  //     );
 
   Widget buildSortChips({
     required Function(bool, String) onChipSelected,
@@ -385,7 +371,7 @@ class KontakPelangganScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(
               horizontal: 24,
             ),
-            child: BlocBuilder<KontakPelangganBloc, KontakPelangganState>(
+            child: BlocBuilder<GrupPelangganBloc, GrupPelangganState>(
               builder: (context, state) {
                 return Row(
                   mainAxisSize: MainAxisSize.max,
@@ -397,15 +383,15 @@ class KontakPelangganScreen extends StatelessWidget {
                               await showSearchFromCustomDelegate<String>(
                             context: context,
                             delegate: CustomSearchDelegate(
-                              contextPage: context,
-                              controller: _bloc.searchController,
-                              initQuery: _bloc.searchController.text,
-                              suggestions: [
-                                "Brad Simmons",
-                                "Brad",
-                                "Simmons",
-                              ],
-                            ),
+                                contextPage: context,
+                                controller: _bloc.searchController,
+                                initQuery: _bloc.searchController.text,
+                                suggestions: [
+                                  "Loyal Customer",
+                                  "Returning Customer",
+                                  "New",
+                                  "Tokopedia",
+                                ]),
                           );
                           if (query != null) {
                             _bloc.searchController.text = query;
@@ -427,7 +413,7 @@ class KontakPelangganScreen extends StatelessWidget {
                             ),
                             onPressed: () {},
                           ),
-                          labelText: "Cari Kontak",
+                          labelText: "Cari Grup",
                           onTap: () {},
                           onSaved: (value) {
                             _bloc.sortFilterAndSearch();
@@ -438,7 +424,7 @@ class KontakPelangganScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    BlocBuilder<KontakPelangganBloc, KontakPelangganState>(
+                    BlocBuilder<GrupPelangganBloc, GrupPelangganState>(
                       builder: (context, state) {
                         if (_bloc.searchController.text.isNotEmpty) {
                           return Container(
@@ -493,7 +479,7 @@ class KontakPelangganScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 GestureDetector(
-                  child: BlocBuilder<KontakPelangganBloc, KontakPelangganState>(
+                  child: BlocBuilder<GrupPelangganBloc, GrupPelangganState>(
                     builder: (context, state) {
                       return _sortWidget();
                     },
@@ -560,75 +546,75 @@ class KontakPelangganScreen extends StatelessWidget {
                   },
                 ),
                 GestureDetector(
-                  child: BlocBuilder<KontakPelangganBloc, KontakPelangganState>(
+                  child: BlocBuilder<GrupPelangganBloc, GrupPelangganState>(
                     builder: (context, state) {
                       return _filterWidget(
                           selectedCount: _bloc.selectedGroupFilter.length);
                     },
                   ),
-                  onTap: () {
-                    showBarBottomSheet(
-                      ctx,
-                      builder: (ctx) {
-                        List<String> selectedGroupFilterTemp =
-                            _bloc.selectedGroupFilter.toList();
-                        return StatefulBuilder(
-                          builder: ((context, setState) {
-                            return Padding(
-                              padding: const EdgeInsets.only(
-                                left: 32,
-                                right: 32,
-                                top: 32,
-                                bottom: 34,
-                              ),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  CustomHeaderBottomSheet(
-                                    onClear: () {
-                                      setState(() {
-                                        selectedGroupFilterTemp = [];
-                                      });
-                                    },
-                                    title: "Filter",
-                                  ),
-                                  const SizedBox(
-                                    height: 16,
-                                  ),
-                                  buildFilterChips(
-                                    selectedGroupFilterTemp:
-                                        selectedGroupFilterTemp,
-                                    onChipSelected: (isSelected, str) {
-                                      setState(() {
-                                        if (isSelected) {
-                                          selectedGroupFilterTemp.add(str);
-                                        } else {
-                                          selectedGroupFilterTemp.remove(str);
-                                        }
-                                      });
-                                    },
-                                  ),
-                                  const SizedBox(
-                                    height: 32,
-                                  ),
-                                  PrimaryButton(
-                                    onPressed: () {
-                                      _bloc.selectedGroupFilter =
-                                          selectedGroupFilterTemp;
-                                      _bloc.sortFilterAndSearch();
-                                      RouteApp.popScreen(context);
-                                    },
-                                    title:
-                                        "Apply ${selectedGroupFilterTemp.isNotEmpty ? '(' + selectedGroupFilterTemp.length.toString() + ')' : ""}",
-                                  )
-                                ],
-                              ),
-                            );
-                          }),
-                        );
-                      },
-                    );
-                  },
+                  // onTap: () {
+                  //   showBarBottomSheet(
+                  //     ctx,
+                  //     builder: (ctx) {
+                  //       List<String> selectedGroupFilterTemp =
+                  //           _bloc.selectedGroupFilter.toList();
+                  //       return StatefulBuilder(
+                  //         builder: ((context, setState) {
+                  //           return Padding(
+                  //             padding: const EdgeInsets.only(
+                  //               left: 32,
+                  //               right: 32,
+                  //               top: 32,
+                  //               bottom: 34,
+                  //             ),
+                  //             child: Column(
+                  //               mainAxisSize: MainAxisSize.min,
+                  //               children: [
+                  //                 CustomHeaderBottomSheet(
+                  //                   onClear: () {
+                  //                     setState(() {
+                  //                       selectedGroupFilterTemp = [];
+                  //                     });
+                  //                   },
+                  //                   title: "Filter",
+                  //                 ),
+                  //                 const SizedBox(
+                  //                   height: 16,
+                  //                 ),
+                  //                 // buildFilterChips(
+                  //                 //   selectedGroupFilterTemp:
+                  //                 //       selectedGroupFilterTemp,
+                  //                 //   onChipSelected: (isSelected, str) {
+                  //                 //     setState(() {
+                  //                 //       if (isSelected) {
+                  //                 //         selectedGroupFilterTemp.add(str);
+                  //                 //       } else {
+                  //                 //         selectedGroupFilterTemp.remove(str);
+                  //                 //       }
+                  //                 //     });
+                  //                 //   },
+                  //                 // ),
+                  //                 const SizedBox(
+                  //                   height: 32,
+                  //                 ),
+                  //                 PrimaryButton(
+                  //                   onPressed: () {
+                  //                     _bloc.selectedGroupFilter =
+                  //                         selectedGroupFilterTemp;
+                  //                     _bloc.sortFilterAndSearch();
+                  //                     RouteApp.popScreen(context);
+                  //                   },
+                  //                   title:
+                  //                       "Apply ${selectedGroupFilterTemp.isNotEmpty ? '(' + selectedGroupFilterTemp.length.toString() + ')' : ""}",
+                  //                 )
+                  //               ],
+                  //             ),
+                  //           );
+                  //         }),
+                  //       );
+                  //     },
+                  //   );
+                  // },
                 ),
               ],
             ),

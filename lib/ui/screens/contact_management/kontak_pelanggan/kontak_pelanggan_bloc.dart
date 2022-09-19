@@ -4,11 +4,15 @@ import 'package:scriptmatic_onboarding_app/ui/screens/contact_management/kontak_
 import 'package:scriptmatic_onboarding_app/utils/constants.dart';
 import 'package:scriptmatic_onboarding_app/utils/palette_color.dart';
 
+import 'grup_pelanggan/grup_pelanggan_bloc.dart';
+
 class KontakPelangganBloc extends Cubit<KontakPelangganState> {
   KontakPelangganBloc() : super(KontakPelangganInitial());
 
-  final List<String> listgroup =
-      GrupPelanggan.values.map((e) => e.value).toList();
+  final List<String> listgroup = GrupPelangganBloc()
+      .dummyListGrup
+      .map((e) => e.name.toUpperCase())
+      .toList();
   final List<String> listSort = Sort.values.map((e) => e.value).toList();
   final TextEditingController searchController = TextEditingController();
 
@@ -27,10 +31,10 @@ class KontakPelangganBloc extends Cubit<KontakPelangganState> {
   //     name: "Brad Simmons",
   //     number: "0893452887643",
   //     types: [
-  //       GrupPelanggan.loyalCustomer,
-  //       GrupPelanggan.tokopedia,
-  //       GrupPelanggan.menWear,
-  //       GrupPelanggan.shopee,
+  //       GrupPelangganEnum.loyalCustomer,
+  //       GrupPelangganEnum.tokopedia,
+  //       GrupPelangganEnum.menWear,
+  //       GrupPelangganEnum.shopee,
   //     ],
   //     created: 1,
   //   ),
@@ -38,105 +42,105 @@ class KontakPelangganBloc extends Cubit<KontakPelangganState> {
   //     id: 2,
   //     name: "Farli Nahrul",
   //     number: "089300871672",
-  //     types: [GrupPelanggan.newCustomer],
+  //     types: [GrupPelangganEnum.newCustomer],
   //     created: 2,
   //   ),
   //   KontakPelanggan(
   //     id: 3,
   //     name: "Javier Nahrul",
   //     number: "089312785628",
-  //     types: [GrupPelanggan.returningCustomer],
+  //     types: [GrupPelangganEnum.returningCustomer],
   //     created: 3,
   //   ),
   //   KontakPelanggan(
   //     id: 4,
   //     name: "Nahrul Farli",
   //     number: "082251641111",
-  //     types: [GrupPelanggan.shopee],
+  //     types: [GrupPelangganEnum.shopee],
   //     created: 4,
   //   ),
   //   KontakPelanggan(
   //     id: 5,
   //     name: "Nahrul Farli",
   //     number: "082251641111",
-  //     types: [GrupPelanggan.tokopedia],
+  //     types: [GrupPelangganEnum.tokopedia],
   //     created: 5,
   //   ),
   //   KontakPelanggan(
   //     id: 6,
   //     name: "Nahrul Farli",
   //     number: "082251641111",
-  //     types: [GrupPelanggan.tokopedia],
+  //     types: [GrupPelangganEnum.tokopedia],
   //     created: 7,
   //   ),
   //   KontakPelanggan(
   //     id: 7,
   //     name: "Nahrul Farli",
   //     number: "082251641111",
-  //     types: [GrupPelanggan.tokopedia],
+  //     types: [GrupPelangganEnum.tokopedia],
   //     created: 8,
   //   ),
   //   KontakPelanggan(
   //     id: 8,
   //     name: "Nahrul Farli",
   //     number: "082251641111",
-  //     types: [GrupPelanggan.tokopedia],
+  //     types: [GrupPelangganEnum.tokopedia],
   //     created: 9,
   //   ),
   //   KontakPelanggan(
   //     id: 9,
   //     name: "Nahrul Farli",
   //     number: "082251641111",
-  //     types: [GrupPelanggan.tokopedia],
+  //     types: [GrupPelangganEnum.tokopedia],
   //     created: 10,
   //   ),
   //   KontakPelanggan(
   //     id: 10,
   //     name: "Nahrul Farli",
   //     number: "082251641111",
-  //     types: [GrupPelanggan.tokopedia],
+  //     types: [GrupPelangganEnum.tokopedia],
   //     created: 11,
   //   ),
   //   KontakPelanggan(
   //     id: 11,
   //     name: "Nahrul Farli",
   //     number: "082251641111",
-  //     types: [GrupPelanggan.tokopedia],
+  //     types: [GrupPelangganEnum.tokopedia],
   //     created: 12,
   //   ),
   //   KontakPelanggan(
   //     id: 12,
   //     name: "Nahrul Farli",
   //     number: "082251641111",
-  //     types: [GrupPelanggan.tokopedia],
+  //     types: [GrupPelangganEnum.tokopedia],
   //     created: 13,
   //   ),
   //   KontakPelanggan(
   //     id: 13,
   //     name: "Nahrul Farli",
   //     number: "082251641111",
-  //     types: [GrupPelanggan.menWear],
+  //     types: [GrupPelangganEnum.menWear],
   //     created: 6,
   //   ),
   //   KontakPelanggan(
   //     id: 14,
   //     name: "Alpha",
   //     number: "082251641111",
-  //     types: [GrupPelanggan.menWear],
+  //     types: [GrupPelangganEnum.menWear],
   //     created: 13,
   //   ),
   //   KontakPelanggan(
   //     id: 15,
   //     name: "Beta",
   //     number: "082251641111",
-  //     types: [GrupPelanggan.shopee],
+  //     types: [GrupPelangganEnum.shopee],
   //     created: 13,
   //   ),
   //   KontakPelanggan(
   //     id: 16,
   //     name: "Cicak",
   //     number: "082251641111",
-  //     types: [GrupPelanggan.loyalCustomer],
+  //     types: [GrupPelangganEnum.loyalCustomer],
   //     created: 13,
   //   ),
   // ];
@@ -150,6 +154,7 @@ class KontakPelangganBloc extends Cubit<KontakPelangganState> {
   }
 
   void addContact(KontakPelanggan obj) {
+    obj.id = _dummyListKontak.length + 1;
     _dummyListKontak.add(obj);
     init();
   }
@@ -208,7 +213,7 @@ class KontakPelangganBloc extends Cubit<KontakPelangganState> {
     }
     for (var element in dataList) {
       for (var type in element.types) {
-        if (selectedGroupFilter.contains(type.value)) {
+        if (selectedGroupFilter.contains(type.name)) {
           dataList.add(element);
           break;
         }
@@ -241,7 +246,7 @@ class KontakPelangganBloc extends Cubit<KontakPelangganState> {
 
 /* Temporary data. Just for UI but may be used for logic */
 class KontakPelanggan {
-  final int id;
+  int? id;
   final String name, number;
   final List<GrupPelanggan> types;
   // it must be DateTime
@@ -252,61 +257,61 @@ class KontakPelanggan {
     required this.number,
     required this.types,
     required this.created,
-    required this.id,
+    this.id,
   });
 }
 
-enum GrupPelanggan {
-  newCustomer,
-  loyalCustomer,
-  returningCustomer,
-  tokopedia,
-  shopee,
-  menWear,
-}
+// enum GrupPelangganEnum {
+//   newCustomer,
+//   loyalCustomer,
+//   returningCustomer,
+//   tokopedia,
+//   shopee,
+//   menWear,
+// }
 
-extension GrupPelangganExt on GrupPelanggan {
-  // static const Map<GrupPelanggan, int> keys = {
-  //   GrupPelanggan.newCustomer: 0,
-  //   GrupPelanggan.shopee: 1,
-  //   GrupPelanggan.loyalCustomer: 2,
-  //   GrupPelanggan.returningCustomer: 3,
-  // };
+// extension GrupPelangganEnumExt on GrupPelangganEnum {
+//   // static const Map<GrupPelangganEnum, int> keys = {
+//   //   GrupPelangganEnum.newCustomer: 0,
+//   //   GrupPelangganEnum.shopee: 1,
+//   //   GrupPelangganEnum.loyalCustomer: 2,
+//   //   GrupPelangganEnum.returningCustomer: 3,
+//   // };
 
-  static const Map<GrupPelanggan, String> values = {
-    GrupPelanggan.newCustomer: "New Customer",
-    GrupPelanggan.loyalCustomer: "Loyal Customer",
-    GrupPelanggan.returningCustomer: "Returning Customer",
-    GrupPelanggan.tokopedia: "Tokopedia",
-    GrupPelanggan.shopee: "Shopee",
-    GrupPelanggan.menWear: "Men Wear",
-  };
+//   static const Map<GrupPelangganEnum, String> values = {
+//     GrupPelangganEnum.newCustomer: "New Customer",
+//     GrupPelangganEnum.loyalCustomer: "Loyal Customer",
+//     GrupPelangganEnum.returningCustomer: "Returning Customer",
+//     GrupPelangganEnum.tokopedia: "Tokopedia",
+//     GrupPelangganEnum.shopee: "Shopee",
+//     GrupPelangganEnum.menWear: "Men Wear",
+//   };
 
-  static const Map<GrupPelanggan, Color> colors = {
-    GrupPelanggan.newCustomer: PaletteColor.red,
-    GrupPelanggan.loyalCustomer: PaletteColor.yellow,
-    GrupPelanggan.returningCustomer: PaletteColor.blue,
-    GrupPelanggan.tokopedia: PaletteColor.green,
-    GrupPelanggan.shopee: PaletteColor.orange,
-    GrupPelanggan.menWear: PaletteColor.violet,
-  };
+//   static const Map<GrupPelangganEnum, Color> colors = {
+//     GrupPelangganEnum.newCustomer: PaletteColor.red,
+//     GrupPelangganEnum.loyalCustomer: PaletteColor.yellow,
+//     GrupPelangganEnum.returningCustomer: PaletteColor.blue,
+//     GrupPelangganEnum.tokopedia: PaletteColor.green,
+//     GrupPelangganEnum.shopee: PaletteColor.orange,
+//     GrupPelangganEnum.menWear: PaletteColor.violet,
+//   };
 
-  // int get key => keys[this]!;
-  String get value => values[this]!;
-  Color get color => colors[this]!;
+//   // int get key => keys[this]!;
+//   String get value => values[this]!;
+//   Color get color => colors[this]!;
 
-  // static GrupPelanggan? fromRaw(int? raw) {
-  //   try {
-  //     return keys.entries.firstWhere((e) => e.value == raw).key;
-  //   } catch (_) {
-  //     return null;
-  //   }
-  // }
-  static GrupPelanggan? fromRaw(String? raw) {
-    try {
-      return values.entries.firstWhere((e) => e.value == raw).key;
-    } catch (_) {
-      return null;
-    }
-  }
-}
+//   // static GrupPelangganEnum? fromRaw(int? raw) {
+//   //   try {
+//   //     return keys.entries.firstWhere((e) => e.value == raw).key;
+//   //   } catch (_) {
+//   //     return null;
+//   //   }
+//   // }
+//   static GrupPelangganEnum? fromRaw(String? raw) {
+//     try {
+//       return values.entries.firstWhere((e) => e.value == raw).key;
+//     } catch (_) {
+//       return null;
+//     }
+//   }
+// }

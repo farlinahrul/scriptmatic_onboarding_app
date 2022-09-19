@@ -1,12 +1,58 @@
-import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scriptmatic_onboarding_app/utils/constants.dart';
+import 'package:scriptmatic_onboarding_app/utils/palette_color.dart';
 
+import '../kontak_pelanggan_bloc.dart';
 import 'grup_pelanggan_state.dart';
 
 class GrupPelangganBloc extends Cubit<GrupPelangganState> {
   GrupPelangganBloc() : super(GrupPelangganInitial());
+
+  final List<GrupPelanggan> dummyListGrup = [
+    GrupPelanggan(
+      name: "Loyal Customer",
+      contacts: [],
+      color: PaletteColor.yellow,
+      id: 1,
+      created: 1,
+    ),
+    GrupPelanggan(
+      name: "Returning Customer",
+      contacts: [],
+      color: PaletteColor.blue,
+      id: 2,
+      created: 2,
+    ),
+    GrupPelanggan(
+      name: "Shopee",
+      contacts: [],
+      color: PaletteColor.orange,
+      id: 3,
+      created: 3,
+    ),
+    GrupPelanggan(
+      name: "New Customer",
+      contacts: [],
+      color: PaletteColor.red,
+      id: 4,
+      created: 4,
+    ),
+    GrupPelanggan(
+      name: "Tokopedia",
+      contacts: [],
+      color: PaletteColor.green,
+      id: 5,
+      created: 5,
+    ),
+    GrupPelanggan(
+      name: "Men Wear",
+      contacts: [],
+      color: PaletteColor.violet,
+      id: 6,
+      created: 6,
+    ),
+  ];
 
   // final List<String> listgroup =
   //     GrupPelanggan.values.map((e) => e.value).toList();
@@ -16,27 +62,10 @@ class GrupPelangganBloc extends Cubit<GrupPelangganState> {
   List<String> selectedGroupFilter = [];
   String? selectedSort;
 
-  final List<GrupPelanggan> _dummyListKontak = [];
-
   /*  For Backend Component  */
   void init() {
-    emit(GrupPelangganLoaded(_dummyListKontak));
+    emit(GrupPelangganLoaded(dummyListGrup));
     // emit(GrupPelangganLoaded([]));
-  }
-
-  void addContact(GrupPelanggan obj) {
-    _dummyListKontak.add(obj);
-    init();
-  }
-
-  void editContact(GrupPelanggan obj) {
-    for (var i = 0; i < _dummyListKontak.length; i++) {
-      if (_dummyListKontak[i].id == obj.id) {
-        _dummyListKontak[i] = obj;
-        init();
-        return;
-      }
-    }
   }
 
   void setSelectedGroupFilter(final bool selected, final String value) {
@@ -64,16 +93,16 @@ class GrupPelangganBloc extends Cubit<GrupPelangganState> {
   }
 
   int countList() {
-    return _dummyListKontak.length;
+    return dummyListGrup.length;
   }
 
   List<GrupPelanggan> _sortList(List<GrupPelanggan> dataList) {
     if (selectedSort == null) {
       return dataList;
     }
-    // dataList.sort(Sort.values
-    //     .firstWhere((element) => element.value == selectedSort!)
-    //     .logicKontak);
+    dataList.sort(Sort.values
+        .firstWhere((element) => element.value == selectedSort!)
+        .logicGrup);
     return dataList;
   }
 
@@ -81,19 +110,19 @@ class GrupPelangganBloc extends Cubit<GrupPelangganState> {
     if (selectedGroupFilter.isEmpty) {
       return dataList;
     }
-    for (var element in dataList) {
-      // for (var type in element.types) {
-      //   if (selectedGroupFilter.contains(type.value)) {
-      //     dataList.add(element);
-      //     break;
-      //   }
-      // }
-    }
+    // for (var element in dataList) {
+    //   for (var type in element.types) {
+    //     if (selectedGroupFilter.contains(type.value)) {
+    //       dataList.add(element);
+    //       break;
+    //     }
+    //   }
+    // }
     return dataList;
   }
 
   List<GrupPelanggan> _searchList(List<GrupPelanggan> dataList) {
-    dataList = _dummyListKontak
+    dataList = dummyListGrup
         .where((element) => element.name
             .toLowerCase()
             .contains(searchController.text.toLowerCase()))
@@ -102,7 +131,7 @@ class GrupPelangganBloc extends Cubit<GrupPelangganState> {
   }
 
   void sortFilterAndSearch() {
-    List<GrupPelanggan> listFinal = _dummyListKontak;
+    List<GrupPelanggan> listFinal = dummyListGrup;
     listFinal = _searchList(listFinal);
     listFinal = _filterList(listFinal);
     listFinal = _sortList(listFinal);
@@ -112,17 +141,37 @@ class GrupPelangganBloc extends Cubit<GrupPelangganState> {
       emit(GrupPelangganLoadedWithFilterState(listFinal));
     }
   }
+
+  void addData(GrupPelanggan data) {
+    data.id = dummyListGrup.length + 1;
+    dummyListGrup.add(data);
+    init();
+  }
+
+  void editGrup(GrupPelanggan obj) {
+    for (var i = 0; i < dummyListGrup.length; i++) {
+      if (dummyListGrup[i].id == obj.id) {
+        dummyListGrup[i] = obj;
+        init();
+        return;
+      }
+    }
+  }
 }
 
 class GrupPelanggan {
-  final int id, created;
+  int? id;
+  final int created;
   final String name;
   final Color color;
+  // temporary
+  final List<KontakPelanggan> contacts;
 
   GrupPelanggan({
     required this.name,
     required this.color,
-    required this.id,
+    this.id,
     required this.created,
+    required this.contacts,
   });
 }

@@ -1,3 +1,5 @@
+import 'package:flutter/painting.dart';
+
 class Validator {
   Validator();
 
@@ -58,6 +60,16 @@ class Validator {
     RegExp regex = RegExp(pattern);
     if (!regex.hasMatch(value!)) {
       return "Wajib Diisi!";
+    } else {
+      return null;
+    }
+  }
+
+  String? hexColor(String? value) {
+    String pattern = r'^#[0-9a-fA-F]{6}$|^#ff[0-9a-fA-F]{6}$';
+    RegExp regex = RegExp(pattern);
+    if (!regex.hasMatch(value!)) {
+      return "Hex Color tidak valid";
     } else {
       return null;
     }

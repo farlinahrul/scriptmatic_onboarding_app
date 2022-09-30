@@ -1,5 +1,7 @@
-import 'package:scriptmatic_onboarding_app/ui/screens/contact_management/kontak_pelanggan/grup_pelanggan/grup_pelanggan_bloc.dart';
-import 'package:scriptmatic_onboarding_app/ui/screens/contact_management/kontak_pelanggan/kontak_pelanggan_bloc.dart';
+
+
+import '../models/grup_pelanggan.dart';
+import '../models/kontak_pelanggan.dart';
 
 enum Weightenum {
   /// FontWeight 100.

@@ -5,7 +5,7 @@ import 'package:scriptmatic_onboarding_app/ui/widgets/primary_button.dart';
 import 'package:scriptmatic_onboarding_app/utils/extensions.dart';
 import 'package:scriptmatic_onboarding_app/utils/palette_color.dart';
 
-import 'contact_management/kontak_pelanggan/grup_pelanggan/grup_pelanggan_screen.dart';
+import 'contact_management/grup_pelanggan/grup_pelanggan_screen.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -13,7 +13,7 @@ class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: "Dashboard"),
+      appBar: const CustomAppBar(title: "Dashboard"),
       backgroundColor: PaletteColor.white,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -24,16 +24,16 @@ class DashboardScreen extends StatelessWidget {
             PrimaryButton(
               title: "Kontak Pelanggan",
               onPressed: () {
-                RouteApp.pushScreen(context, KontakPelangganScreen());
+                RouteApp.pushScreen(context, const KontakPelangganScreen());
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 24,
             ),
             PrimaryButton(
               title: "Grup Pelanggan",
               onPressed: () {
-                RouteApp.pushScreen(context, GrupPelangganScreen());
+                RouteApp.pushScreen(context, const GrupPelangganScreen());
               },
             ),
           ],

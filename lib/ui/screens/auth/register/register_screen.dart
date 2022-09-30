@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:scriptmatic_onboarding_app/ui/screens/auth/login/login_screen.dart';
-import 'package:scriptmatic_onboarding_app/ui/screens/auth/register/register_bloc.dart';
-import 'package:scriptmatic_onboarding_app/ui/screens/auth/register/register_state.dart';
 import 'package:scriptmatic_onboarding_app/ui/widgets/form_input_field_with_icon.dart';
 import 'package:scriptmatic_onboarding_app/ui/widgets/primary_button.dart';
 import 'package:scriptmatic_onboarding_app/ui/widgets/text/text_inter.dart';
@@ -13,11 +11,26 @@ import 'package:scriptmatic_onboarding_app/utils/images.dart';
 import 'package:scriptmatic_onboarding_app/utils/palette_color.dart';
 import 'package:scriptmatic_onboarding_app/utils/validator.dart';
 
-class RegisterScreen extends StatelessWidget {
-  RegisterScreen({Key? key}) : super(key: key);
+import '../../../../data/blocs/credential/register/register_bloc.dart';
+import '../../../../data/blocs/credential/register/register_state.dart';
 
-  final RegisterBloc _bloc = RegisterBloc()..init();
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({Key? key}) : super(key: key);
+
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
+  late RegisterBloc _bloc;
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    _bloc = RegisterBloc()..init();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +69,7 @@ class RegisterScreen extends StatelessWidget {
                         size: 16,
                         fontWeight: Weightenum.regular,
                         color: PaletteColor.textGrey,
+                        maxLines: 3,
                       ),
                       const SizedBox(
                         height: 48,
@@ -203,7 +217,7 @@ class RegisterScreen extends StatelessWidget {
                           ),
                           GestureDetector(
                             onTap: () {
-                              RouteApp.pushReplacement(context, LoginScreen());
+                              RouteApp.pushReplacement(context, const LoginScreen());
                             },
                             child: const TextInter(
                               text: "Log In.",

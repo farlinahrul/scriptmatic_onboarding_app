@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:scriptmatic_onboarding_app/ui/screens/auth/login/login_screen.dart';
-import 'package:scriptmatic_onboarding_app/ui/screens/onboarding/onboarding_bloc.dart';
-import 'package:scriptmatic_onboarding_app/ui/screens/onboarding/onboarding_state.dart';
 import 'package:scriptmatic_onboarding_app/ui/widgets/primary_button.dart';
 import 'package:scriptmatic_onboarding_app/ui/widgets/text/text_inter.dart';
 import 'package:scriptmatic_onboarding_app/utils/constants.dart';
@@ -12,10 +10,24 @@ import 'package:scriptmatic_onboarding_app/utils/extensions.dart';
 import 'package:scriptmatic_onboarding_app/utils/images.dart';
 import 'package:scriptmatic_onboarding_app/utils/palette_color.dart';
 
-class OnboardingScreen extends StatelessWidget {
-  final OnboardingBloc _bloc = OnboardingBloc()..fetchData();
+import '../../../data/blocs/credential/onboarding/onboarding_bloc.dart';
+import '../../../data/blocs/credential/onboarding/onboarding_state.dart';
 
-  OnboardingScreen({Key? key}) : super(key: key);
+class OnboardingScreen extends StatefulWidget {
+  const OnboardingScreen({Key? key}) : super(key: key);
+
+  @override
+  State<OnboardingScreen> createState() => _OnboardingScreenState();
+}
+
+class _OnboardingScreenState extends State<OnboardingScreen> {
+  late OnboardingBloc _bloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _bloc = OnboardingBloc()..fetchData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -173,7 +185,7 @@ class OnboardingScreen extends StatelessWidget {
                                   child: PrimaryButton(
                                     onPressed: () {
                                       RouteApp.pushScreen(
-                                          context, LoginScreen());
+                                          context, const LoginScreen());
                                     },
                                     title: "Get Started",
                                   ),

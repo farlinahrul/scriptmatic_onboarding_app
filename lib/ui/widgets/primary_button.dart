@@ -16,6 +16,7 @@ class PrimaryButton extends StatelessWidget {
   final String? title;
   final bool reverse;
   final bool forceAction;
+  final bool isSolid;
 
   const PrimaryButton({
     Key? key,
@@ -31,6 +32,7 @@ class PrimaryButton extends StatelessWidget {
     this.reverse = false,
     this.marginHorizontal = 0,
     this.forceAction = false,
+    this.isSolid = true,
   }) : super(key: key);
 
   @override
@@ -46,7 +48,9 @@ class PrimaryButton extends StatelessWidget {
               end: Alignment.bottomCenter,
               stops: const [0.0, 1.0],
               colors: enabled
-                  ? <Color>[PaletteColor.primary, PaletteColor.primary]
+                  ? isSolid
+                      ? <Color>[PaletteColor.primary, PaletteColor.primary]
+                      : <Color>[Colors.transparent, Colors.transparent]
                   : <Color>[Colors.transparent, Colors.transparent],
             ),
         boxShadow: [
@@ -64,7 +68,12 @@ class PrimaryButton extends StatelessWidget {
                 color: PaletteColor.borderEmphasis,
                 width: 2,
               )
-            : null,
+            : isSolid
+                ? null
+                : Border.all(
+                    color: PaletteColor.primary,
+                    width: 2,
+                  ),
       ),
       child: Material(
         color: Colors.transparent,
@@ -76,7 +85,9 @@ class PrimaryButton extends StatelessWidget {
                 TextInter(
                   size: 16,
                   color: enabled
-                      ? PaletteColor.textPrimaryInverted
+                      ? isSolid
+                          ? PaletteColor.textPrimaryInverted
+                          : PaletteColor.primary
                       : PaletteColor.textGrey,
                   fontWeight: Weightenum.semiBold,
                   text: title.toString(),

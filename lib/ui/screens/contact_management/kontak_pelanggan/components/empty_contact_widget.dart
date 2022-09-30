@@ -38,7 +38,7 @@ class EmptyContactWidget extends StatelessWidget {
             height: 4,
           ),
           const TextInter(
-            text: "Silahkan tambahkan kontak terlebih dahulu",
+            text: "Silakan tambahkan kontak terlebih dahulu",
             size: 14,
             fontWeight: Weightenum.regular,
             color: PaletteColor.black80,

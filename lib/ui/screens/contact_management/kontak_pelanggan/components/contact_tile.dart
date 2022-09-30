@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:scriptmatic_onboarding_app/ui/screens/contact_management/kontak_pelanggan/kontak_pelanggan_bloc.dart';
 import 'package:scriptmatic_onboarding_app/ui/widgets/text/text_inter.dart';
 import 'package:scriptmatic_onboarding_app/utils/constants.dart';
 import 'package:scriptmatic_onboarding_app/utils/images.dart';
 import 'package:scriptmatic_onboarding_app/utils/palette_color.dart';
 
-import '../grup_pelanggan/grup_pelanggan_bloc.dart';
+import '../../../../../models/grup_pelanggan.dart';
 
 class ContactTile extends StatelessWidget {
   const ContactTile({

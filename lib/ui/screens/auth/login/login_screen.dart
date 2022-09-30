@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:scriptmatic_onboarding_app/ui/screens/auth/login/login_bloc.dart';
-import 'package:scriptmatic_onboarding_app/ui/screens/auth/login/login_state.dart';
 import 'package:scriptmatic_onboarding_app/ui/screens/auth/register/register_screen.dart';
-import 'package:scriptmatic_onboarding_app/ui/screens/contact_management/kontak_pelanggan/kontak_pelanggan_screen.dart';
 import 'package:scriptmatic_onboarding_app/ui/screens/dashboard_screen.dart';
 import 'package:scriptmatic_onboarding_app/ui/widgets/form_input_field_with_icon.dart';
 import 'package:scriptmatic_onboarding_app/ui/widgets/primary_button.dart';
@@ -15,11 +12,26 @@ import 'package:scriptmatic_onboarding_app/utils/images.dart';
 import 'package:scriptmatic_onboarding_app/utils/palette_color.dart';
 import 'package:scriptmatic_onboarding_app/utils/validator.dart';
 
-class LoginScreen extends StatelessWidget {
-  LoginScreen({Key? key}) : super(key: key);
+import '../../../../data/blocs/credential/login/login_bloc.dart';
+import '../../../../data/blocs/credential/login/login_state.dart';
 
-  final LoginBloc _bloc = LoginBloc()..init();
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  late LoginBloc _bloc;
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    _bloc = LoginBloc()..init();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +72,7 @@ class LoginScreen extends StatelessWidget {
                         height: 64,
                       ),
                       FormInputFieldWithIcon(
-                        contentPadding: EdgeInsets.only(top: 14),
+                        contentPadding: const EdgeInsets.only(top: 14),
                         controller: _bloc.emailController,
                         enableBorder: false,
                         iconPrefix: Padding(
@@ -131,7 +143,7 @@ class LoginScreen extends StatelessWidget {
                       PrimaryButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            RouteApp.pushScreen(context, DashboardScreen());
+                            RouteApp.pushScreen(context, const DashboardScreen());
                           }
                         },
                         title: "Login",
@@ -184,7 +196,7 @@ class LoginScreen extends StatelessWidget {
                           GestureDetector(
                             onTap: () {
                               RouteApp.pushReplacement(
-                                  context, RegisterScreen());
+                                  context, const RegisterScreen());
                             },
                             child: const TextInter(
                               text: "Sign Up.",

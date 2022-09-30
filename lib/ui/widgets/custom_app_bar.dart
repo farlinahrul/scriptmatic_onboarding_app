@@ -9,11 +9,13 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   const CustomAppBar({
     Key? key,
     required this.title,
+    this.onPressed,
   })  : preferredSize = const Size.fromHeight(kToolbarHeight),
         super(key: key);
   @override
   final Size preferredSize;
   final String title;
+  final void Function()? onPressed;
   @override
   _CustomAppBarState createState() => _CustomAppBarState();
 }
@@ -37,9 +39,10 @@ class _CustomAppBarState extends State<CustomAppBar> {
           height: 22,
           color: PaletteColor.primary,
         ),
-        onPressed: () {
-          RouteApp.popScreen(context);
-        },
+        onPressed: widget.onPressed ??
+            () {
+              RouteApp.popScreen(context);
+            },
       ),
       elevation: 0,
       centerTitle: true,

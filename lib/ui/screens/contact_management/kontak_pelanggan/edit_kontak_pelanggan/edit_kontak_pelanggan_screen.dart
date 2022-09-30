@@ -11,28 +11,31 @@ import 'package:scriptmatic_onboarding_app/utils/extensions.dart';
 import 'package:scriptmatic_onboarding_app/utils/palette_color.dart';
 import 'package:scriptmatic_onboarding_app/utils/validator.dart';
 
-import '../../../../../data/blocs/contact_management/kontak_pelanggan/create_kontak/create_kontak_pelanggan_bloc.dart';
-import '../../../../../data/blocs/contact_management/kontak_pelanggan/create_kontak/create_kontak_pelanggan_state.dart';
+import '../../../../../data/blocs/contact_management/kontak_pelanggan/edit_kontak/edit_kontak_pelanggan_bloc.dart';
+import '../../../../../data/blocs/contact_management/kontak_pelanggan/edit_kontak/edit_kontak_pelanggan_state.dart';
 import '../../../../../data/blocs/contact_management/kontak_pelanggan/kontak_pelanggan_bloc.dart';
+import '../../../../../models/kontak_pelanggan.dart';
 
-class CreateKontakPelangganScreen extends StatefulWidget {
-  const CreateKontakPelangganScreen({Key? key}) : super(key: key);
+class EditKontakPelangganScreen extends StatefulWidget {
+  const EditKontakPelangganScreen({Key? key, required this.data})
+      : super(key: key);
+
+  final KontakPelanggan data;
 
   @override
-  State<CreateKontakPelangganScreen> createState() =>
-      _CreateKontakPelangganScreenState();
+  State<EditKontakPelangganScreen> createState() =>
+      _EditKontakPelangganScreenState();
 }
 
-class _CreateKontakPelangganScreenState
-    extends State<CreateKontakPelangganScreen> {
-  late CreateKontakPelangganBloc _bloc;
+class _EditKontakPelangganScreenState extends State<EditKontakPelangganScreen> {
+  late EditKontakPelangganBloc _bloc;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
-    _bloc = CreateKontakPelangganBloc()..init();
+    _bloc = EditKontakPelangganBloc()..init(widget.data);
   }
 
   @override
@@ -42,10 +45,9 @@ class _CreateKontakPelangganScreenState
       child: Scaffold(
         backgroundColor: PaletteColor.white,
         appBar: const CustomAppBar(
-          title: "Kontak Baru",
+          title: "Edit Kontak",
         ),
-        body:
-            BlocBuilder<CreateKontakPelangganBloc, CreateKontakPelangganState>(
+        body: BlocBuilder<EditKontakPelangganBloc, EditKontakPelangganState>(
           builder: (context, state) {
             return Stack(
               children: [
@@ -60,6 +62,9 @@ class _CreateKontakPelangganScreenState
                           height: 24,
                         ),
                         FormWithLabel(
+                          onChanged: (val) {
+                            _bloc.updateState();
+                          },
                           controller: _bloc.nameController,
                           label: "Name",
                           labelText: "Masukan Nama",
@@ -76,6 +81,9 @@ class _CreateKontakPelangganScreenState
                           height: 14,
                         ),
                         FormWithLabel(
+                          onChanged: (val) {
+                            _bloc.updateState();
+                          },
                           controller: _bloc.handphoneController,
                           label: "Nomer Telepon",
                           labelText: "Masukan Nomer Telepon",
@@ -109,8 +117,7 @@ class _CreateKontakPelangganScreenState
                           child: DropDownMultiSelect(
                             whenEmpty: "Pilih Group Pelanggan",
                             onChanged: (val) {
-                              debugPrint("changed");
-                              _bloc.setSelectedList();
+                              _bloc.updateState();
                               _bloc.validateDropdown();
                             },
                             selectedValues: _bloc.dummyListGroup.isNotEmpty
@@ -233,9 +240,7 @@ class _CreateKontakPelangganScreenState
                         if (_formKey.currentState!.validate() &&
                             _bloc.validationDropdownResult == null) {
                           BlocProvider.of<KontakPelangganBloc>(context)
-                              .addContact(_bloc.createContactObj(
-                                  BlocProvider.of<KontakPelangganBloc>(context)
-                                      .countList()));
+                              .editContact(_bloc.createContactObj());
                           RouteApp.popScreen(context);
                         }
                       },

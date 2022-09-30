@@ -9,7 +9,7 @@ class FormWithLabel extends StatelessWidget {
     required this.label,
     required this.labelText,
     required this.controller,
-    this.keyboardType,
+    this.keyboardType = TextInputType.text,
     this.validator,
     this.onChanged,
     this.iconSuffix,
@@ -18,7 +18,7 @@ class FormWithLabel extends StatelessWidget {
   final String label;
   final String labelText;
   final TextEditingController controller;
-  final TextInputType? keyboardType;
+  final TextInputType keyboardType;
   final String? Function(String?)? validator;
   final Function(String)? onChanged;
   final Widget? iconSuffix;
@@ -37,6 +37,7 @@ class FormWithLabel extends StatelessWidget {
           height: 12,
         ),
         FormInputFieldWithIcon(
+          keyboardType: keyboardType,
           borderRadius: 14,
           controller: controller,
           iconSuffix: iconSuffix,
